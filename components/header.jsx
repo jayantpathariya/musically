@@ -1,14 +1,21 @@
 import Image from "next/image";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
-export const Header = () => {
+import { cn } from "@/lib/utils";
+
+export const Header = ({ scrolled }) => {
   return (
-    <header className="p-4 flex items-center justify-between">
+    <header
+      className={cn(
+        "p-4 flex items-center justify-between sticky left-0 top-0 z-20",
+        scrolled && "bg-neutral-800"
+      )}
+    >
       <div className="flex items-center gap-x-2">
-        <button className="bg-neutral-900 flex items-center justify-center p-2 rounded-full hover:bg-neutral-800 transition duration-300 disabled:bg-neutral-950">
+        <button className="bg-neutral-900 flex items-center justify-center p-2 rounded-full disabled:bg-neutral-950">
           <BsChevronLeft className="h-4 w-4" />
         </button>
-        <button className="bg-neutral-900 flex items-center justify-center p-2 rounded-full hover:bg-neutral-800 transition duration-300 disabled:bg-neutral-950">
+        <button className="bg-neutral-900 flex items-center justify-center p-2 rounded-full disabled:bg-neutral-950">
           <BsChevronRight className="h-4 w-4" />
         </button>
       </div>

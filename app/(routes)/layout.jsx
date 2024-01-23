@@ -1,11 +1,22 @@
+"use client";
+
+import { useRef } from "react";
+import { useScroll } from "react-use";
+
 import { Box } from "@/components/box";
 import { Header } from "@/components/header";
 
 const SiteLayout = ({ children }) => {
+  const scrollRef = useRef(null);
+  const { y } = useScroll(scrollRef);
+
   return (
-    <Box className="overflow-y-auto max-h-[calc(100vh-1.5rem)] bg-gradient-to-b from-orange-800/40">
-      <Header />
-      <div className="p-4">{children}</div>
+    <Box
+      ref={scrollRef}
+      className="overflow-y-auto max-h-[calc(100vh-1.5rem)] from-orange-800/40"
+    >
+      <Header scrolled={y > 150} />
+      <div className="p-4 pt-0">{children}</div>
     </Box>
   );
 };
