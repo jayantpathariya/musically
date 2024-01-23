@@ -11,7 +11,7 @@ const SiteLayout = ({ children }) => {
   const { y } = useScroll(scrollRef);
 
   return (
-    <Box ref={scrollRef} className="overflow-y-auto h-[calc(100vh-1.5rem)]">
+    <Box ref={scrollRef} className="overflow-y-auto h-[calc(100vh-5.74rem)]">
       <div className="bg-gradient-to-b from-orange-800/40 to-[20rem]">
         <Header scrolled={y > 80} bgColor="bg-orange-950" />
         <div className="p-4">{children}</div>

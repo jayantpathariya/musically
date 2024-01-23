@@ -2,9 +2,9 @@ import Image from "next/image";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { GrPlayFill } from "react-icons/gr";
+import { LuHeart } from "react-icons/lu";
 
 import { cn, formatArtist, secondsToMinutes } from "@/lib/utils";
-import { LuHeart } from "react-icons/lu";
 
 export const Table = ({ playlist }) => {
   return (

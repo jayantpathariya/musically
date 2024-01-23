@@ -1,8 +1,10 @@
 import { Figtree } from "next/font/google";
 
 import { Sidebar } from "@/components/sidebar";
+import { Player } from "@/components/player";
 
 import "./globals.css";
+import "rc-slider/assets/index.css";
 
 const font = Figtree({ subsets: ["latin"] });
 
@@ -19,6 +21,7 @@ export default function RootLayout({ children }) {
           <Sidebar />
           <main className="col-span-4 md:col-span-3">{children}</main>
         </div>
+        <Player />
       </body>
     </html>
   );

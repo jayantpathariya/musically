@@ -26,3 +26,19 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.rc-slider-handle {
+  opacity: 0 !important;
+}
+
+.rc-slider:hover .rc-slider-handle {
+  opacity: 1 !important;
+}
+
+.rc-slider:hover .rc-slider-track {
+  background-color: #22c55e !important;
+}
+
+.rc-slider-handle {
+  box-shadow: none !important;
+}

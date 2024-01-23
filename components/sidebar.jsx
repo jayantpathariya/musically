@@ -99,7 +99,7 @@ export const Sidebar = () => {
   }, []);
 
   return (
-    <aside className="hidden md:flex flex-col gap-y-2 text-neutral-400 font-semibold   h-[calc(100vh-1.47rem)]">
+    <aside className="hidden md:flex flex-col gap-y-2 text-neutral-400 font-semibold   h-[calc(100vh-5.74rem)]">
       <Box className="p-4 flex flex-col gap-y-4">
         {routes.map((route) => (
           <SidebarItem key={route.name} {...route} />
@@ -123,7 +123,7 @@ export const Sidebar = () => {
           </div>
         </div>
         <div
-          className="overflow-y-scroll max-h-[calc(100%-6.8rem)] p-2 overflow-hidden"
+          className="overflow-y-scroll max-h-[calc(100%-6rem)] p-2 overflow-hidden"
           ref={scrollYRef}
         >
           <div className="flex items-center justify-between gap-x-2 mb-2">
