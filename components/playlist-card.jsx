@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { PlayButton } from "./play-button";
 
-export const PlaylistCard = () => {
+export const PlaylistCard = ({ title, image, subtitle }) => {
   return (
     <Link
       href="playlist"
@@ -13,7 +13,7 @@ export const PlaylistCard = () => {
     >
       <div className="relative">
         <Image
-          src="/playlist.jpg"
+          src={image}
           width={180}
           height={180}
           alt="playlist poster"
@@ -25,10 +25,8 @@ export const PlaylistCard = () => {
           size="md"
         />
       </div>
-      <p className="font-semibold line-clamp-1 mb-1">Moody Mix</p>
-      <p className="text-sm text-neutral-400 line-clamp-2">
-        Beach House, Sasha Alex Sloan and Arijit Singh
-      </p>
+      <p className="font-semibold line-clamp-1 mb-1">{title}</p>
+      <p className="text-sm text-neutral-400 line-clamp-2">{subtitle}</p>
     </Link>
   );
 };

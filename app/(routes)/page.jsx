@@ -1,7 +1,14 @@
 import { HorizontalPlaylistCard } from "@/components/horizontal-playlist-card";
 import { Playlists } from "@/components/playlists";
+import { getHomeData } from "@/actions/get-home-data";
 
-export default function Home() {
+export default async function Home() {
+  const results = await getHomeData();
+
+  const sortedResults = Object?.values(results?.modules)?.sort(
+    (a, b) => a.position - b.position
+  );
+
   return (
     <div>
       <h1 className="text-3xl font-bold mb-2">Good evening</h1>
@@ -14,8 +21,13 @@ export default function Home() {
         <HorizontalPlaylistCard />
       </div>
       <div>
-        <Playlists title="You top mixes" />
-        <Playlists title="You top mixes" />
+        {sortedResults.map((result) => (
+          <Playlists
+            key={result.source}
+            title={result.title}
+            playlists={results[result.source]}
+          />
+        ))}
       </div>
     </div>
   );
