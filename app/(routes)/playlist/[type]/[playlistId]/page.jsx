@@ -21,8 +21,8 @@ const PlaylistIdPage = async ({ params }) => {
           className="w-40 rounded-sm shadow-sm"
         />
         <div className="text-neutral-400 text-sm">
-          <span className="capitalize">{result?.type}</span>
-          <h1 className="text-8xl font-bold text-neutral-100">
+          <span className="capitalize text-neutral-300">{result?.type}</span>
+          <h1 className="text-8xl font-bold text-neutral-100 line-clamp-1 pb-2">
             {result?.title}
           </h1>
           <p className="mb-2">{formatArtist(result?.more_info)}</p>

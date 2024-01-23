@@ -21,8 +21,10 @@ export const Player = () => {
         />
         <div className="flex items-center gap-x-4">
           <div>
-            <p>Play Date</p>
-            <p className="text-xs text-neutral-400">Melanie Martinez</p>
+            <p className="line-clamp-1">Play Date</p>
+            <p className="text-xs text-neutral-400 line-clamp-1">
+              Melanie Martinez
+            </p>
           </div>
           <button>
             <LuHeart className="w-4 h-4 text-neutral-400 hover:scale-110 hover:text-neutral-100" />

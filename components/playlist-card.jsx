@@ -16,7 +16,7 @@ export const PlaylistCard = ({ title, image, subtitle, type, link }) => {
         <div
           className={cn(
             "bg-neutral-800 rounded-md p-4 hover:bg-neutral-700 transition duration-300 group h-full",
-            type === "radio_station" && "rounded-full mb-2"
+            type === "radio_station" && "rounded-full mb-2 h-auto"
           )}
         >
           <div className="relative">
