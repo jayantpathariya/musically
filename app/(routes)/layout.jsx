@@ -13,10 +13,12 @@ const SiteLayout = ({ children }) => {
   return (
     <Box
       ref={scrollRef}
-      className="overflow-y-auto max-h-[calc(100vh-1.5rem)] bg-gradient-to-b from-orange-800/40"
+      className="overflow-y-auto max-h-[calc(100vh-1.5rem)] "
     >
-      <Header scrolled={y > 150} />
-      <div className="p-4 pt-0">{children}</div>
+      <div className="bg-gradient-to-b from-orange-800/40 to-35%">
+        <Header scrolled={y > 80} bgColor="bg-orange-950" />
+        <div className="p-4 pt-0">{children}</div>
+      </div>
     </Box>
   );
 };
