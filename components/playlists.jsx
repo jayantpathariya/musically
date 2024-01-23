@@ -13,6 +13,7 @@ export const Playlists = ({ title, playlists }) => {
               title={playlist.title}
               image={playlist.image}
               subtitle={formatArtist(playlist?.more_info) || playlist?.subtitle}
+              type={playlist.type}
             />
           );
         })}
