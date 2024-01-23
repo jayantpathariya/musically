@@ -1,9 +1,13 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 import { cn } from "@/lib/utils";
 
 export const Header = ({ scrolled, bgColor }) => {
+  const router = useRouter();
+
   return (
     <header
       className={cn(
@@ -14,10 +18,16 @@ export const Header = ({ scrolled, bgColor }) => {
       )}
     >
       <div className="flex items-center gap-x-2">
-        <button className="bg-neutral-900 flex items-center justify-center p-2 rounded-full disabled:bg-neutral-950">
+        <button
+          className="bg-neutral-900 flex items-center justify-center p-2 rounded-full disabled:bg-neutral-950"
+          onClick={() => router.back()}
+        >
           <BsChevronLeft className="h-4 w-4" />
         </button>
-        <button className="bg-neutral-900 flex items-center justify-center p-2 rounded-full disabled:bg-neutral-950">
+        <button
+          className="bg-neutral-900 flex items-center justify-center p-2 rounded-full disabled:bg-neutral-950"
+          onClick={() => router.forward()}
+        >
           <BsChevronRight className="h-4 w-4" />
         </button>
       </div>

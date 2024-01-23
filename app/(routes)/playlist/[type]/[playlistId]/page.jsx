@@ -9,7 +9,6 @@ import { Table } from "@/components/table";
 
 const PlaylistIdPage = async ({ params }) => {
   const result = await getSong({ id: params.playlistId, type: params.type });
-  console.log(result);
 
   return (
     <div>
@@ -45,7 +44,7 @@ const PlaylistIdPage = async ({ params }) => {
             <PiDotsThreeBold className="h-8 w-8 text-neutral-400 hover:text-neutral-100 hover:scale-105 transition " />
           </button>
         </div>
-        <Table />
+        <Table playlist={result?.list} />
       </div>
     </div>
   );
