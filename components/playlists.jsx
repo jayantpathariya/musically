@@ -10,6 +10,7 @@ export const Playlists = ({ title, playlists }) => {
           return (
             <PlaylistCard
               key={playlist.id}
+              link={playlist.link}
               title={playlist.title}
               image={playlist.image}
               subtitle={formatArtist(playlist?.more_info) || playlist?.subtitle}

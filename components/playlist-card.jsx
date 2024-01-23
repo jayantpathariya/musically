@@ -6,11 +6,11 @@ import Link from "next/link";
 import { PlayButton } from "./play-button";
 import { cn } from "@/lib/utils";
 
-export const PlaylistCard = ({ title, image, subtitle, type }) => {
+export const PlaylistCard = ({ title, image, subtitle, type, link }) => {
   return (
     <>
       <Link
-        href="playlist"
+        href={`playlist/${type}/${link}`}
         className={cn(type === "radio_station" && "text-center")}
       >
         <div

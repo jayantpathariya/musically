@@ -8,14 +8,16 @@ const client = axios.create({
     _marker: 0,
     api_version: 4,
     ctx: "web6dot0",
+    n: 100,
   },
 });
 
-const api = async (endpoint) => {
+const api = async (endpoint, params) => {
   try {
     const response = await client({
       params: {
         __call: endpoint,
+        ...params,
       },
       method: "GET",
     });
