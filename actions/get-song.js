@@ -1,6 +1,6 @@
 import { config } from "@/constants/config";
 import api from "@/services/api";
-import { formatDuration } from "../lib/utils";
+import { createDownloadLinks } from "../lib/utils";
 
 export const getSong = async ({ id, type }) => {
   try {
@@ -15,6 +15,12 @@ export const getSong = async ({ id, type }) => {
       duration: response.data.list
         .map((item) => item?.more_info?.duration)
         .reduce((a, b) => +a + +b, 0),
+      list: response.data.list.map((item) => ({
+        ...item,
+        download_links: createDownloadLinks(
+          item?.more_info?.encrypted_media_url
+        ),
+      })),
     };
 
     return data;

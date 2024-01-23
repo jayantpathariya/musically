@@ -1,14 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Slider from "rc-slider";
+import { useSelector } from "react-redux";
 import { LuHeart, LuShuffle, LuRepeat } from "react-icons/lu";
 import { GiNextButton, GiPreviousButton } from "react-icons/gi";
 import { RiPlayFill } from "react-icons/ri";
 import { RxSpeakerLoud } from "react-icons/rx";
 import { MdFullscreen } from "react-icons/md";
-import Slider from "rc-slider";
 
 export const Player = () => {
+  const { song } = useSelector((state) => state.song);
+  console.log(song);
+
   return (
     <div className="p-3 pt-0 text-sm grid grid-cols-4 gap-x-4 items-center">
       <div className="flex items-center gap-x-4">

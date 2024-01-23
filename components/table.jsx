@@ -1,12 +1,22 @@
+"use client";
+
 import Image from "next/image";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { GrPlayFill } from "react-icons/gr";
 import { LuHeart } from "react-icons/lu";
+import { useDispatch } from "react-redux";
 
 import { cn, formatArtist, secondsToMinutes } from "@/lib/utils";
+import { setSong } from "@/redux/songSlice";
 
 export const Table = ({ playlist }) => {
+  const dispatch = useDispatch();
+
+  const handlePlaySong = (song) => {
+    dispatch(setSong(song));
+  };
+
   return (
     <table className="w-full text-left overflow-hidden text-sm text-neutral-400">
       <thead className="border-b border-neutral-700/40">
@@ -25,6 +35,7 @@ export const Table = ({ playlist }) => {
           <tr
             key={song.id}
             className="hover:bg-neutral-700/40 cursor-pointer transition duration-300 text-neutral-400 group"
+            onClick={() => handlePlaySong(song)}
           >
             <td className="p-2">
               <div className="w-4 h-4">
