@@ -10,8 +10,6 @@ import { Table } from "@/components/table";
 const PlaylistIdPage = async ({ params }) => {
   const result = await getSong({ id: params.playlistId, type: params.type });
 
-  console.log(result);
-
   return (
     <div>
       <div className="flex items-center gap-x-6 mb-8">
