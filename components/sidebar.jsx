@@ -67,13 +67,13 @@ export const Sidebar = () => {
     return [
       {
         name: "Home",
-        active: pathname !== "/search",
+        active: !pathname.includes("/search"),
         href: "/",
         icon: GoHomeFill,
       },
       {
         name: "Search",
-        active: pathname === "/search",
+        active: pathname.includes("/search"),
         href: "/search",
         icon: GoSearch,
       },

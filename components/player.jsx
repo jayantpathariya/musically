@@ -164,18 +164,18 @@ export const Player = () => {
       </div>
       <div className="flex flex-col items-center gap-y-2 text-neutral-400 col-span-2 w-[80%] justify-self-center">
         <div className="flex items-center gap-x-4 text-neutral-400">
-          <button className="hover:text-neutral-100 transition">
+          <button className="hover:text-neutral-100 transition cursor-auto">
             <LuShuffle className="w-4 h-4" />
           </button>
           <button
             onClick={handlePrevSong}
-            className="hover:text-neutral-100 transition"
+            className="hover:text-neutral-100 transition cursor-auto"
           >
             <GiPreviousButton className="w-6 h-6" />
           </button>
           <button
             onClick={handleTogglePlay}
-            className="bg-neutral-300 p-1 rounded-full hover:scale-105 transition"
+            className="bg-neutral-300 p-1 rounded-full hover:scale-105 transition cursor-auto"
           >
             {isPlaying ? (
               <MdOutlinePause className="w-6 h-6 text-black" />
@@ -185,11 +185,11 @@ export const Player = () => {
           </button>
           <button
             onClick={handleNextSong}
-            className="hover:text-neutral-100 transition"
+            className="hover:text-neutral-100 transition cursor-auto"
           >
             <GiNextButton className="w-6 h-6" />
           </button>
-          <button className="hover:text-neutral-100 transition">
+          <button className="hover:text-neutral-100 transition cursor-auto">
             <LuRepeat className="w-4 h-4" />
           </button>
         </div>
@@ -198,7 +198,7 @@ export const Player = () => {
             {new Date(seek * 1000).toISOString().substr(14, 5) || "--:--"}
           </span>
           <Slider
-            className="w-full"
+            className="w-full cursor-auto"
             styles={{
               track: { backgroundColor: "#fff" },
               rail: { backgroundColor: "#636363" },
@@ -224,7 +224,7 @@ export const Player = () => {
           <button>
             <HiOutlineQueueList className="w-5 h-5 hover:text-neutral-100 transition" />
           </button>
-          <button onClick={handleMute}>
+          <button onClick={handleMute} className="cursor-auto">
             {volume > 0.7 ? (
               <RxSpeakerLoud className="w-4 h-4 hover:text-neutral-100 transition" />
             ) : volume > 0.3 ? (
@@ -236,7 +236,7 @@ export const Player = () => {
             )}
           </button>
           <Slider
-            className="w-full"
+            className="w-full cursor-auto"
             styles={{
               track: { backgroundColor: "#fff" },
               rail: { backgroundColor: "#636363" },
