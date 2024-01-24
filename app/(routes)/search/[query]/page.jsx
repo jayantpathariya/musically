@@ -1,12 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import { LuHeart } from "react-icons/lu";
-import { HiDotsHorizontal } from "react-icons/hi";
-import { RiPlayFill } from "react-icons/ri";
 
 import { getSearch } from "@/actions/get-search";
 import { PlayButton } from "@/components/play-button";
 import { Playlists } from "@/components/playlists";
+import { SearchSongItem } from "@/components/search-song-item";
+import { getLink } from "@/lib/utils";
 
 const SearchQueryPage = async ({ params }) => {
   const result = await getSearch(params.query);
@@ -16,14 +15,11 @@ const SearchQueryPage = async ({ params }) => {
   const albums = result?.albums?.data;
   const artists = result?.artists?.data;
 
-  console.log(topQuery);
-
   return (
     <div>
       <div className="grid grid-cols-2 gap-4">
         <div>
           <h2 className="text-2xl font-bold mb-4">Top result</h2>
-
           <Link
             href={`/playlist`}
             className="inline-block bg-neutral-800 p-4 rounded-md w-full hover:bg-neutral-700 transition duration-300 relative group"
@@ -53,40 +49,7 @@ const SearchQueryPage = async ({ params }) => {
           <h2 className="text-2xl font-bold mb-2">Songs</h2>
           <div>
             {result?.songs?.data.map((song) => (
-              <Link
-                href={`playlist`}
-                key={song?.id}
-                className="flex items-center justify-between p-2 rounded-md hover:bg-neutral-800 group"
-              >
-                <div className="flex items-center gap-x-2">
-                  <div className="relative">
-                    <div className="absolute left-1/2 top-1/2 h-full w-full bg-neutral-900/40 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                      <RiPlayFill className="w-6 h-6" />
-                    </div>
-                    <Image
-                      src={song?.image}
-                      alt={`${song.title} cover`}
-                      width={40}
-                      height={40}
-                      className=""
-                    />
-                  </div>
-                  <div>
-                    <p>{song.title}</p>
-                    <p className="text-sm text-neutral-400 line-clamp-1">
-                      {song.more_info?.singers}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-x-4 text-neutral-400">
-                  <button className="hover:text-neutral-100 hover:scale-105 transition">
-                    <LuHeart className="w-4 h-4" />
-                  </button>
-                  <button className="opacity-0 group-hover:opacity-100 hover:text-neutral-100 transition">
-                    <HiDotsHorizontal className="w-4 h-4" />
-                  </button>
-                </div>
-              </Link>
+              <SearchSongItem key={song.id} song={song} link={getLink(song)} />
             ))}
           </div>
         </div>

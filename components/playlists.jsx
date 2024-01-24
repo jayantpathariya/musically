@@ -1,4 +1,4 @@
-import { formatArtist } from "@/lib/utils";
+import { formatArtist, getLink } from "@/lib/utils";
 import { PlaylistCard } from "./playlist-card";
 
 export const Playlists = ({ title, playlists }) => {
@@ -10,7 +10,7 @@ export const Playlists = ({ title, playlists }) => {
           return (
             <PlaylistCard
               key={playlist.id}
-              link={playlist.link}
+              link={getLink(playlist)}
               title={playlist.title}
               image={playlist.image}
               subtitle={formatArtist(playlist?.more_info) || playlist?.subtitle}

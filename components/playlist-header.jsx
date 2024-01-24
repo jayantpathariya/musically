@@ -1,7 +1,6 @@
 "use client";
 
 import axios from "axios";
-import { usePathname } from "next/navigation";
 import { LuHeart } from "react-icons/lu";
 import { PlayButton } from "./play-button";
 import { PiDotsThreeBold } from "react-icons/pi";
@@ -13,7 +12,7 @@ export const PlaylistHeader = ({ type, playlistId }) => {
 
   const handlePlay = async () => {
     try {
-      const result = await axios(`/api/songs/${type}/${playlistId}`);
+      const result = await axios(`/api/playlist/${type}/${playlistId}`);
       const data = result.data;
       dispatch(setSong({ playlist: data.list, song: data.list[0], index: 0 }));
     } catch (error) {

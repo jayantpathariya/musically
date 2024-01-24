@@ -16,7 +16,7 @@ export const PlaylistCard = ({ title, image, subtitle, type, link }) => {
     e.preventDefault();
 
     try {
-      const result = await axios(`/api/songs/${type}/${link}`);
+      const result = await axios(`/api/playlist/${type}/${link}`);
       const data = result.data;
       dispatch(setSong({ playlist: data.list, song: data.list[0], index: 0 }));
     } catch (error) {
@@ -27,7 +27,7 @@ export const PlaylistCard = ({ title, image, subtitle, type, link }) => {
   return (
     <>
       <Link
-        href={`playlist/${type}/${link}`}
+        href={`/playlist/${type}/${link}`}
         className={cn(type === "radio_station" && "text-center")}
       >
         <div

@@ -15,7 +15,6 @@ export const Table = ({ playlist }) => {
   const dispatch = useDispatch();
 
   const handlePlaySong = (playlist, song, index) => {
-    console.log({ playlist, song, index });
     dispatch(setSong({ playlist, song, index }));
   };
 
@@ -34,9 +33,6 @@ export const Table = ({ playlist }) => {
       </thead>
       <tbody>
         {playlist?.map((song, index) => {
-          if (song.title === "Tu hai kahan") {
-            console.log(song);
-          }
           return (
             <tr
               key={song.id}

@@ -1,12 +1,15 @@
 import Image from "next/image";
 
-import { getSong } from "@/actions/get-song";
+import { getPlaylist } from "@/actions/get-playlist";
 import { formatArtist, formatDuration } from "@/lib/utils";
 import { Table } from "@/components/table";
 import { PlaylistHeader } from "@/components/playlist-header";
 
 const PlaylistIdPage = async ({ params }) => {
-  const result = await getSong({ id: params.playlistId, type: params.type });
+  const result = await getPlaylist({
+    id: params.playlistId,
+    type: params.type,
+  });
 
   return (
     <div>
