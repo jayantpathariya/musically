@@ -8,11 +8,12 @@ export const PlayButton = ({ className, size, onClick }) => {
   return (
     <button
       className={cn(
-        "bg-green-500 h-8 w-8 flex items-center justify-center rounded-full hover:scale-105 transition",
+        "bg-green-500 h-8 w-8 flex items-center justify-center rounded-full hover:scale-105 transition cursor-auto",
         size === "md" && "h-12 w-12",
         size === "lg" && "h-14 w-14",
         className
       )}
+      type="button"
       onClick={onClick}
     >
       <RiPlayFill

@@ -1,12 +1,14 @@
-import { config } from "@/constants/config";
-import api from "@/services/api";
-import { createDownloadLinks } from "../lib/utils";
+import { NextResponse } from "next/server";
 
-export const getSong = async ({ id, type }) => {
-  console.log({ id, type });
+import api from "@/services/api";
+import { config } from "@/constants/config";
+import { createDownloadLinks } from "@/lib/utils";
+
+export async function GET(_, { params }) {
   try {
+    const { type, playlistId } = params;
     const response = await api(config.endpoints.songs.link, {
-      token: id,
+      token: playlistId,
       type,
     });
 
@@ -24,9 +26,12 @@ export const getSong = async ({ id, type }) => {
       })),
     };
 
-    return data;
+    return NextResponse.json(data);
   } catch (error) {
-    console.log("[GET_SONG]", error);
-    return null;
+    return new NextResponse(
+      JSON.stringify({ message: error.message }),
+
+      { status: 500 }
+    );
   }
-};
+}

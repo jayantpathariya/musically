@@ -1,11 +1,9 @@
 import Image from "next/image";
-import { LuHeart } from "react-icons/lu";
-import { PiDotsThreeBold } from "react-icons/pi";
 
 import { getSong } from "@/actions/get-song";
 import { formatArtist, formatDuration } from "@/lib/utils";
-import { PlayButton } from "@/components/play-button";
 import { Table } from "@/components/table";
+import { PlaylistHeader } from "@/components/playlist-header";
 
 const PlaylistIdPage = async ({ params }) => {
   const result = await getSong({ id: params.playlistId, type: params.type });
@@ -35,15 +33,7 @@ const PlaylistIdPage = async ({ params }) => {
         </div>
       </div>
       <div>
-        <div className="flex items-center gap-x-6 mb-6">
-          <PlayButton size="lg" />
-          <button>
-            <LuHeart className="h-8 w-8 text-neutral-400 hover:text-neutral-100 hover:scale-105 transition " />
-          </button>
-          <button>
-            <PiDotsThreeBold className="h-8 w-8 text-neutral-400 hover:text-neutral-100 hover:scale-105 transition " />
-          </button>
-        </div>
+        <PlaylistHeader type={params.type} playlistId={params.playlistId} />
         <Table playlist={result?.list} />
       </div>
     </div>

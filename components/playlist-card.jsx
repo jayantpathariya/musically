@@ -1,12 +1,29 @@
 "use client";
 
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 
 import { PlayButton } from "./play-button";
 import { cn } from "@/lib/utils";
+import { setSong } from "@/redux/songSlice";
 
 export const PlaylistCard = ({ title, image, subtitle, type, link }) => {
+  const dispatch = useDispatch();
+
+  const handlePlay = async (e) => {
+    e.preventDefault();
+
+    try {
+      const result = await axios(`/api/songs/${type}/${link}`);
+      const data = result.data;
+      dispatch(setSong({ playlist: data.list, song: data.list[0], index: 0 }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Link
@@ -31,7 +48,7 @@ export const PlaylistCard = ({ title, image, subtitle, type, link }) => {
               )}
             />
             <PlayButton
-              onClick={() => {}}
+              onClick={handlePlay}
               className={cn(
                 "absolute bottom-2 right-2 translate-y-2 opacity-0  group-hover:opacity-100 transition duration-300",
                 type !== "radio_station" && "group-hover:translate-y-0",

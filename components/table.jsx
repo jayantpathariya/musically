@@ -14,9 +14,8 @@ export const Table = ({ playlist }) => {
   const { currentSong } = useSelector((state) => state.song);
   const dispatch = useDispatch();
 
-  console.log({ currentSong });
-
   const handlePlaySong = (playlist, song, index) => {
+    console.log({ playlist, song, index });
     dispatch(setSong({ playlist, song, index }));
   };
 

@@ -34,7 +34,6 @@ export const Player = () => {
 
   useEffect(() => {
     if (currentSong?.download_links) {
-      console.log(currentSong?.download_links[4]?.link);
       soundRef.current = new Howl({
         src: [currentSong?.download_links[4]?.link],
         autoplay: true,
@@ -142,13 +141,15 @@ export const Player = () => {
   return (
     <div className="p-3 pt-0 text-sm grid grid-cols-4 gap-x-4 items-center">
       <div className="flex items-center gap-x-4">
-        <Image
-          src={currentSong?.image}
-          width={56}
-          height={56}
-          alt={`${currentSong?.name} cover`}
-          className="w-14 rounded-md"
-        />
+        {currentSong?.image && (
+          <Image
+            src={currentSong?.image}
+            width={56}
+            height={56}
+            alt={`${currentSong?.name} cover`}
+            className="w-14 rounded-md"
+          />
+        )}
         <div className="flex items-center gap-x-4">
           <div>
             <p className="line-clamp-1">{currentSong?.title}</p>
@@ -194,7 +195,7 @@ export const Player = () => {
         </div>
         <div className="w-full flex items-center gap-x-2">
           <span className="text-xs">
-            {new Date(seek * 1000).toISOString().substr(14, 5) || "00:00"}
+            {new Date(seek * 1000).toISOString().substr(14, 5) || "--:--"}
           </span>
           <Slider
             className="w-full"
@@ -213,7 +214,7 @@ export const Player = () => {
               soundRef.current ? soundRef.current?.duration() * 1000 : 0
             )
               .toISOString()
-              .substr(14, 5) || "00:00"}
+              .substr(14, 5) || "--:--"}
           </span>
         </div>
       </div>
