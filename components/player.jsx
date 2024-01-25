@@ -152,7 +152,12 @@ export const Player = () => {
         )}
         <div className="flex items-center gap-x-4">
           <div>
-            <p className="line-clamp-1">{currentSong?.title}</p>
+            <p
+              className="line-clamp-1"
+              dangerouslySetInnerHTML={{
+                __html: currentSong?.title,
+              }}
+            />
             <p className="text-xs text-neutral-400 line-clamp-1">
               {formatArtist(currentSong?.more_info)}
             </p>

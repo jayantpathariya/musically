@@ -16,7 +16,7 @@ export const Header = ({ scrolled, bgColor }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    router.push(`/search/${debouncedValue}`);
+    router.push(`/search/${debouncedValue.replaceAll(" ", "-")}`);
   }, [debouncedValue, router]);
 
   return (
