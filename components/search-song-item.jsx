@@ -67,6 +67,7 @@ export const SearchSongItem = ({ songId }) => {
         <div>
           <p
             className={cn(
+              "line-clamp-1",
               songDetails?.id === currentSong?.id && "text-green-500"
             )}
           >

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { PlayButton } from "@/components/play-button";
 import { setSong } from "@/redux/songSlice";
-import { cn } from "@/lib/utils";
+import { cn, getLink } from "@/lib/utils";
 
 export const SearchTopResultCard = ({ song }) => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ export const SearchTopResultCard = ({ song }) => {
 
   return (
     <Link
-      href={`/playlist`}
+      href={`/${song?.type}/${getLink(song)}`}
       className="inline-block bg-neutral-800 p-4 rounded-md w-full hover:bg-neutral-700 transition duration-300 relative group"
     >
       <Image
@@ -43,8 +43,10 @@ export const SearchTopResultCard = ({ song }) => {
 
       <p className="text-3xl font-bold mb-1">{song?.title}</p>
       <p className="text-sm">
-        <span className="text-neutral-400 capitalize">{song?.type} • </span>
-        {song?.more_info?.singers}
+        <span className="text-neutral-400 capitalize">{song?.type} </span>
+        {song?.more_info?.singers && (
+          <span>{`• ${song?.more_info?.singers}`}</span>
+        )}
       </p>
       <PlayButton
         size="md"

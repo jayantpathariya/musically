@@ -18,6 +18,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "pli.saavncdn.com",
       },
+      {
+        protocol: "http",
+        hostname: "c.saavncdn.com",
+      },
     ],
   },
 };

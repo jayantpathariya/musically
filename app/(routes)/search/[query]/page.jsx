@@ -11,6 +11,9 @@ const SearchQueryPage = async ({ params }) => {
   const playlists = result?.playlists?.data;
   const albums = result?.albums?.data;
   const artists = result?.artists?.data;
+  const songs = result?.songs?.data;
+
+  console.log(songs);
 
   return (
     <div>
@@ -22,13 +25,8 @@ const SearchQueryPage = async ({ params }) => {
         <div>
           <h2 className="text-2xl font-bold mb-2">Songs</h2>
           <div>
-            {result?.songs?.data.map((song) => (
-              <SearchSongItem
-                key={song.id}
-                songId={song.id}
-                song={song}
-                link={getLink(song)}
-              />
+            {songs?.map((song) => (
+              <SearchSongItem key={song.id} songId={song.id} />
             ))}
           </div>
         </div>

@@ -6,8 +6,8 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 
 import { PlayButton } from "./play-button";
-import { cn } from "@/lib/utils";
 import { setSong } from "@/redux/songSlice";
+import { cn } from "@/lib/utils";
 
 export const PlaylistCard = ({ title, image, subtitle, type, link }) => {
   const dispatch = useDispatch();

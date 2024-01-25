@@ -3,9 +3,13 @@ import api from "@/services/api";
 
 export const getSearch = async (query) => {
   try {
-    const response = await api(config.endpoints.search.all, {
-      query: query,
-    });
+    const response = await api(
+      config.endpoints.search.all,
+      {
+        query: query,
+      },
+      false
+    );
 
     return response.data;
   } catch (error) {
