@@ -12,8 +12,6 @@ export async function GET(_, { params }) {
       type,
     });
 
-    console.log(response.data);
-
     const data = {
       ...response.data,
       image: response?.data?.image?.replace("150x150", "500x500"),

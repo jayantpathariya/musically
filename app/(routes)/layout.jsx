@@ -20,12 +20,13 @@ const SiteLayout = ({ children }) => {
     >
       <div
         className={cn(
+          "h-full",
           !pathname.includes("/search") &&
             "bg-gradient-to-b from-orange-800/40 to-[20rem]"
         )}
       >
         <Header scrolled={y > 80} bgColor={"bg-orange-950"} />
-        <div className="p-4">{children}</div>
+        <div className="p-4 h-[calc(100%-3.98rem)]">{children}</div>
       </div>
     </Box>
   );

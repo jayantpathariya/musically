@@ -6,12 +6,21 @@ import { createImageLinks, secondsToMinutes } from "@/lib/utils";
 import { getLyrics } from "@/actions/get-lyrics";
 import { getAlbum } from "@/actions/get-album";
 import { PlaylistHeader } from "@/components/playlist-header";
+import { getArtistOtherTopSongs } from "@/actions/get-artist-other-top-songs";
 
 const SongIdPage = async ({ params }) => {
   const result = await getSong(params.songId);
   const song = result[0];
+  const artist = song?.more_info?.artistMap?.primary_artists[0];
   const lyricsResult = await getLyrics(params.songId);
   const album = await getAlbum(song?.more_info?.album_url?.split("/")?.pop());
+  const artistOtherTopSongs = await getArtistOtherTopSongs({
+    artistId: artist?.id,
+    songId: song?.id,
+    language: song?.language,
+  });
+
+  console.log(artistOtherTopSongs);
 
   return (
     <div>
@@ -47,6 +56,10 @@ const SongIdPage = async ({ params }) => {
         <Playlists
           title={`More from ${song?.more_info?.album}`}
           playlists={album.list}
+        />
+        <Playlists
+          title={`Top song by ${artist?.name}`}
+          playlists={artistOtherTopSongs}
         />
       </div>
     </div>

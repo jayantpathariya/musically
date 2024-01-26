@@ -19,9 +19,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={font.className}>
         <ReduxProvider>
-          <div className="grid grid-cols-4 gap-3 p-3">
+          <div className="grid grid-cols-4 gap-3 p-3 h-full">
             <Sidebar />
-            <main className="col-span-4 md:col-span-3">{children}</main>
+            <main className="h-full col-span-4 md:col-span-3">{children}</main>
           </div>
           <Player />
         </ReduxProvider>
