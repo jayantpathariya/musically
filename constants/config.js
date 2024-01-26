@@ -27,6 +27,12 @@ export const config = {
       albums: "artist.getArtistMoreAlbum",
       topSongs: "search.artistOtherTopSongs",
     },
+    discover: {
+      newReleases: "content.getAlbums",
+      topCharts: "content.getCharts",
+      topPlaylists: "content.getFeaturedPlaylists",
+      topArtists: "social.getTopArtists",
+    },
     lyrics: "lyrics.getLyrics",
   },
 };

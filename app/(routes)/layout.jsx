@@ -26,7 +26,7 @@ const SiteLayout = ({ children }) => {
         )}
       >
         <Header scrolled={y > 80} bgColor={"bg-orange-950"} />
-        <div className="p-4 h-[calc(100%-3.98rem)]">{children}</div>
+        <div className="p-4 h-[calc(100%-3.2)]">{children}</div>
       </div>
     </Box>
   );
