@@ -1,14 +1,12 @@
 import Image from "next/image";
 
 import { getArtist } from "@/actions/get-artist";
-import { PlaylistHeader } from "@/components/playlist-header";
 import { Table } from "@/components/table";
 import { createImageLinks, formatNumber } from "@/lib/utils";
 import { Playlists } from "@/components/playlists";
 
 const ArtistIdPage = async ({ params }) => {
   const result = await getArtist(params.artistId);
-  console.log(createImageLinks(result?.image));
 
   return (
     <div>

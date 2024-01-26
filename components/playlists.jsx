@@ -1,4 +1,4 @@
-import { formatArtist, getLink } from "@/lib/utils";
+import { createImageLinks, formatArtist, getLink } from "@/lib/utils";
 import { PlaylistCard } from "./playlist-card";
 
 export const Playlists = ({ title, playlists }) => {
@@ -10,9 +10,10 @@ export const Playlists = ({ title, playlists }) => {
           return (
             <PlaylistCard
               key={playlist.id}
+              id={playlist.id}
               link={getLink(playlist)}
               title={playlist.title}
-              image={playlist.image}
+              image={createImageLinks(playlist.image)[2]?.link}
               subtitle={formatArtist(playlist?.more_info) || playlist?.subtitle}
               type={playlist.type}
             />

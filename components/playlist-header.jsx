@@ -12,9 +12,24 @@ export const PlaylistHeader = ({ type, playlistId }) => {
 
   const handlePlay = async () => {
     try {
-      const result = await axios(`/api/playlist/${type}/${playlistId}`);
+      let result = {};
+      if (type !== "song") {
+        result = await axios(`/api/playlist/${type}/${link}`);
+      } else {
+        result = await axios(`/api/songs/${playlistId}`);
+      }
       const data = result.data;
-      dispatch(setSong({ playlist: data.list, song: data.list[0], index: 0 }));
+
+      if (type !== "song") {
+        dispatch(
+          setSong({ playlist: data.list, song: data.list[0], index: 0 })
+        );
+      } else {
+        dispatch(setSong({ playlist: data, song: data[0], index: 0 }));
+      }
+      // const result = await axios(`/api/playlist/${type}/${playlistId}`);
+      // const data = result.data;
+      // dispatch(setSong({ playlist: data.list, song: data.list[0], index: 0 }));
     } catch (error) {
       console.log(error);
     }

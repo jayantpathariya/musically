@@ -9,16 +9,28 @@ import { PlayButton } from "./play-button";
 import { setSong } from "@/redux/songSlice";
 import { cn } from "@/lib/utils";
 
-export const PlaylistCard = ({ title, image, subtitle, type, link }) => {
+export const PlaylistCard = ({ title, image, subtitle, type, link, id }) => {
   const dispatch = useDispatch();
 
   const handlePlay = async (e) => {
     e.preventDefault();
 
     try {
-      const result = await axios(`/api/playlist/${type}/${link}`);
+      let result = {};
+      if (type !== "song") {
+        result = await axios(`/api/playlist/${type}/${link}`);
+      } else {
+        result = await axios(`/api/songs/${id}`);
+      }
       const data = result.data;
-      dispatch(setSong({ playlist: data.list, song: data.list[0], index: 0 }));
+
+      if (type !== "song") {
+        dispatch(
+          setSong({ playlist: data.list, song: data.list[0], index: 0 })
+        );
+      } else {
+        dispatch(setSong({ playlist: data, song: data[0], index: 0 }));
+      }
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +72,10 @@ export const PlaylistCard = ({ title, image, subtitle, type, link }) => {
           </div>
           {type !== "radio_station" && (
             <>
-              <p className="font-semibold line-clamp-1 mb-1">{title}</p>
+              <p
+                className="font-semibold line-clamp-1 mb-1"
+                dangerouslySetInnerHTML={{ __html: title }}
+              />
               <p className="text-sm text-neutral-400 line-clamp-2">
                 {subtitle}
               </p>

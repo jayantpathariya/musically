@@ -24,6 +24,10 @@ const api = async (endpoint, params, isVersion4 = true) => {
       method: "GET",
     });
 
+    console.log(
+      client.getUri({ params: { __call: endpoint, ...v4, ...params } })
+    );
+
     return response;
   } catch (error) {
     console.log("[API]", error);

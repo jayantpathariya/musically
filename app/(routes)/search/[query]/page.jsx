@@ -1,7 +1,6 @@
 import { getSearch } from "@/actions/get-search";
 import { Playlists } from "@/components/playlists";
 import { SearchSongItem } from "@/components/search-song-item";
-import { getLink } from "@/lib/utils";
 import { SearchTopResultCard } from "@/components/search-top-result-card";
 
 const SearchQueryPage = async ({ params }) => {
@@ -12,8 +11,6 @@ const SearchQueryPage = async ({ params }) => {
   const albums = result?.albums?.data;
   const artists = result?.artists?.data;
   const songs = result?.songs?.data;
-
-  console.log(songs);
 
   return (
     <div>
