@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { getPlaylist } from "@/actions/get-playlist";
-import { formatArtist, formatDuration } from "@/lib/utils";
+import { formatArtist, formatDuration, getLink } from "@/lib/utils";
 import { Table } from "@/components/table";
 import { PlaylistHeader } from "@/components/playlist-header";
 
@@ -36,7 +36,11 @@ const PlaylistIdPage = async ({ params }) => {
         </div>
       </div>
       <div>
-        <PlaylistHeader type={params.type} playlistId={params.playlistId} />
+        <PlaylistHeader
+          type={params.type}
+          playlistId={params.playlistId}
+          link={getLink(result)}
+        />
         <Table playlist={result?.list} />
       </div>
     </div>

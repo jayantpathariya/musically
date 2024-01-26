@@ -33,7 +33,7 @@ export const Table = ({
             <th className="p-2 font-normal">Album</th>
             <th className="p-2"></th>
             <th className="p-2 font-normal">
-              <MdOutlineWatchLater />
+              <MdOutlineWatchLater className="h-4 w-5" />
             </th>
           </tr>
         </thead>
@@ -77,9 +77,12 @@ export const Table = ({
                       )}
                     />
 
-                    <p className="line-clamp-1">
-                      {formatArtist(song?.more_info)}
-                    </p>
+                    <p
+                      className="line-clamp-1"
+                      dangerouslySetInnerHTML={{
+                        __html: formatArtist(song?.more_info),
+                      }}
+                    />
                   </div>
                 </div>
               </td>

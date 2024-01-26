@@ -65,25 +65,6 @@ export const getHomeData = async () => {
         image: item?.image.replace("150x150", "500x500"),
         count: item?.count,
       })),
-      radio: response?.data?.radio?.map((item) => ({
-        id: item?.id,
-        title: item?.title,
-        subtitle: item?.subtitle,
-        perma_url: item?.perma_url,
-        link: item?.perma_url.split("/").pop(),
-        type: item?.type,
-        image: item?.image.replace("150x150", "500x500"),
-      })),
-      artist_recos: response?.data?.artist_recos?.map((item) => ({
-        id: item?.id,
-        title: item?.title,
-        subtitle: item?.subtitle,
-        perma_url: item?.perma_url,
-        link: item?.perma_url.split("/").pop(),
-        type: item?.type,
-        image: item?.image.replace("150x150", "500x500"),
-        more_info: item?.more_info,
-      })),
       tag_mixes: response?.data?.tag_mixes?.map((item) => ({
         id: item?.id,
         title: item?.title,
@@ -106,13 +87,19 @@ export const getHomeData = async () => {
       "promo:vx:data:114": response?.data["promo:vx:data:114"],
       "promo:vx:data:116": response?.data["promo:vx:data:116"],
       "promo:vx:data:212": response?.data["promo:vx:data:212"],
-      // modules: response?.data?.modules,
-      // only take source, position, title from modules object
-      modules: Object.keys(response?.data?.modules)?.map((key) => ({
-        source: response?.data?.modules[key]?.source,
-        position: response?.data?.modules[key]?.position,
-        title: response?.data?.modules[key]?.title,
-      })),
+      modules: Object.keys(response?.data?.modules)
+        ?.map((key) => {
+          if (key === "radio" || key === "artist_recos") {
+            return null;
+          }
+
+          return {
+            source: response?.data?.modules[key]?.source,
+            position: response?.data?.modules[key]?.position,
+            title: response?.data?.modules[key]?.title,
+          };
+        })
+        .filter((item) => item !== null),
     };
 
     return data;

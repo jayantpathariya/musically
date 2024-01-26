@@ -7,7 +7,7 @@ import { PiDotsThreeBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { setSong } from "@/redux/songSlice";
 
-export const PlaylistHeader = ({ type, playlistId }) => {
+export const PlaylistHeader = ({ type, playlistId, link }) => {
   const dispatch = useDispatch();
 
   const handlePlay = async () => {
@@ -27,9 +27,6 @@ export const PlaylistHeader = ({ type, playlistId }) => {
       } else {
         dispatch(setSong({ playlist: data, song: data[0], index: 0 }));
       }
-      // const result = await axios(`/api/playlist/${type}/${playlistId}`);
-      // const data = result.data;
-      // dispatch(setSong({ playlist: data.list, song: data.list[0], index: 0 }));
     } catch (error) {
       console.log(error);
     }
