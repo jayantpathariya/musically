@@ -12,7 +12,11 @@ const QueuePage = () => {
       <h1 className="text-2xl font-bold mb-4">Queue</h1>
       <h2 className="font-bold text-neutral-400">Now playing</h2>
       <div className="mt-2">
-        <Table playlist={[currentSong]} showHeader={false} />
+        {currentSong ? (
+          <Table playlist={[currentSong]} showHeader={false} />
+        ) : (
+          <p className="text-neutral-300">No song playing</p>
+        )}
       </div>
       {songs.length > 0 && (
         <div className="mt-8">

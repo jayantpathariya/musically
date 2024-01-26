@@ -51,7 +51,7 @@ export const Table = ({
                   <span
                     className={cn(
                       "group-hover:hidden",
-                      currentSong?.id === song.id && "text-green-500"
+                      currentSong?.id === song?.id && "text-green-500"
                     )}
                   >
                     {index + startIndex}
