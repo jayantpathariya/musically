@@ -10,7 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { cn, formatArtist, secondsToMinutes } from "@/lib/utils";
 import { setSong } from "@/redux/songSlice";
 
-export const Table = ({ playlist }) => {
+export const Table = ({
+  playlist,
+  startIndex = 1,
+  showHeader = true,
+  isLiked,
+}) => {
   const { currentSong } = useSelector((state) => state.song);
   const dispatch = useDispatch();
 
@@ -20,23 +25,25 @@ export const Table = ({ playlist }) => {
 
   return (
     <table className="w-full text-left overflow-hidden text-sm text-neutral-400">
-      <thead className="border-b border-neutral-700/40">
-        <tr className="text-neutral-400">
-          <th className="p-2 font-normal">#</th>
-          <th className="p-2 font-normal">Title</th>
-          <th className="p-2 font-normal">Album</th>
-          <th className="p-2"></th>
-          <th className="p-2 font-normal">
-            <MdOutlineWatchLater />
-          </th>
-        </tr>
-      </thead>
+      {showHeader && (
+        <thead className="border-b border-neutral-700/40">
+          <tr className="text-neutral-400">
+            <th className="p-2 font-normal">#</th>
+            <th className="p-2 font-normal">Title</th>
+            <th className="p-2 font-normal">Album</th>
+            <th className="p-2"></th>
+            <th className="p-2 font-normal">
+              <MdOutlineWatchLater />
+            </th>
+          </tr>
+        </thead>
+      )}
       <tbody>
         {playlist?.map((song, index) => {
           return (
             <tr
               key={song.id}
-              className="hover:bg-neutral-700/40 cursor-pointer transition duration-300 text-neutral-400 group"
+              className="hover:bg-neutral-700/40 cursor-pointer transition duration-300 text-neutral-400 group text-left"
               onClick={() => handlePlaySong(playlist, song, index)}
             >
               <td className="p-2">
@@ -47,7 +54,7 @@ export const Table = ({ playlist }) => {
                       currentSong?.id === song.id && "text-green-500"
                     )}
                   >
-                    {index + 1}
+                    {index + startIndex}
                   </span>
                   <GrPlayFill className="text-white hidden group-hover:block" />
                 </div>
@@ -86,7 +93,7 @@ export const Table = ({ playlist }) => {
                 <LuHeart
                   className={cn(
                     "opacity-0 group-hover:opacity-100 hover:text-neutral-100 transition",
-                    true &&
+                    isLiked &&
                       "opacity-100 fill-green-500 text-green-500 hover:text-green-500 hover:scale-105 transition"
                   )}
                 />

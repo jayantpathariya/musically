@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import Slider from "rc-slider";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { LuHeart, LuShuffle, LuRepeat } from "react-icons/lu";
@@ -17,7 +19,7 @@ import {
 import { HiOutlineQueueList } from "react-icons/hi2";
 import { Howl } from "howler";
 
-import { formatArtist } from "@/lib/utils";
+import { cn, formatArtist } from "@/lib/utils";
 import { playNextSong, playPrevSong } from "@/redux/songSlice";
 
 export const Player = () => {
@@ -27,6 +29,7 @@ export const Player = () => {
   const [volume, setVolume] = useState(0.1);
 
   const dispatch = useDispatch();
+  const pathname = usePathname();
 
   const { currentSong, songs, index } = useSelector((state) => state.song);
 
@@ -226,9 +229,14 @@ export const Player = () => {
 
       <div className="w-full flex items-center gap-x-4 text-neutral-400">
         <div className="flex items-center gap-x-2 w-full">
-          <button>
-            <HiOutlineQueueList className="w-5 h-5 hover:text-neutral-100 transition" />
-          </button>
+          <Link href="/queue">
+            <HiOutlineQueueList
+              className={cn(
+                "w-5 h-5 hover:text-neutral-100 transition",
+                pathname.includes("/queue") && "text-green-500"
+              )}
+            />
+          </Link>
           <button onClick={handleMute} className="cursor-auto">
             {volume > 0.7 ? (
               <RxSpeakerLoud className="w-4 h-4 hover:text-neutral-100 transition" />
