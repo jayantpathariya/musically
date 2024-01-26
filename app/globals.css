@@ -41,6 +41,14 @@ body,
   opacity: 1 !important;
 }
 
+.rc-slider-disabled {
+  background-color: #000 !important;
+}
+
+.rc-slider-disabled .rc-slider-handle {
+  display: none;
+}
+
 .rc-slider:hover .rc-slider-track {
   background-color: #22c55e !important;
 }

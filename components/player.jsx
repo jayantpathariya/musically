@@ -145,45 +145,63 @@ export const Player = () => {
     <div className="p-3 pt-0 text-sm grid grid-cols-4 gap-x-4 items-center">
       <div className="flex items-center gap-x-4">
         {currentSong?.image && (
-          <Image
-            src={currentSong?.image}
-            width={56}
-            height={56}
-            alt={`${currentSong?.name} cover`}
-            className="w-14 rounded-md"
-          />
-        )}
-        <div className="flex items-center gap-x-4">
-          <div>
-            <p
-              className="line-clamp-1"
-              dangerouslySetInnerHTML={{
-                __html: currentSong?.title,
-              }}
+          <>
+            <Image
+              src={currentSong?.image}
+              width={56}
+              height={56}
+              alt={`${currentSong?.name} cover`}
+              className="w-14 rounded-md"
             />
-            <p className="text-xs text-neutral-400 line-clamp-1">
-              {formatArtist(currentSong?.more_info)}
-            </p>
-          </div>
-          <button>
-            <LuHeart className="w-4 h-4 text-neutral-400 hover:scale-110 hover:text-neutral-100" />
-          </button>
-        </div>
+
+            <div className="flex items-center gap-x-4">
+              <div>
+                <p
+                  className="line-clamp-1"
+                  dangerouslySetInnerHTML={{
+                    __html: currentSong?.title,
+                  }}
+                />
+                <p className="text-xs text-neutral-400 line-clamp-1">
+                  {formatArtist(currentSong?.more_info)}
+                </p>
+              </div>
+              <button>
+                <LuHeart className="w-4 h-4 text-neutral-400 hover:scale-110 hover:text-neutral-100" />
+              </button>
+            </div>
+          </>
+        )}
       </div>
       <div className="flex flex-col items-center gap-y-2 text-neutral-400 col-span-2 w-[80%] justify-self-center">
         <div className="flex items-center gap-x-4 text-neutral-400">
-          <button className="hover:text-neutral-100 transition cursor-auto">
+          <button
+            className={cn(
+              "cursor-auto",
+              currentSong?.title &&
+                "hover:text-neutral-100 transition cursor-auto",
+              !currentSong?.title && "text-neutral-600"
+            )}
+          >
             <LuShuffle className="w-4 h-4" />
           </button>
           <button
             onClick={handlePrevSong}
-            className="hover:text-neutral-100 transition cursor-auto"
+            className={cn(
+              "cursor-auto",
+              currentSong?.title &&
+                "hover:text-neutral-100 transition cursor-auto",
+              !currentSong?.title && "text-neutral-600"
+            )}
           >
             <GiPreviousButton className="w-6 h-6" />
           </button>
           <button
             onClick={handleTogglePlay}
-            className="bg-neutral-300 p-1 rounded-full hover:scale-105 transition cursor-auto"
+            className={cn(
+              "bg-neutral-300 p-1 rounded-full hover:scale-105 transition cursor-auto",
+              !currentSong?.title && "bg-neutral-600"
+            )}
           >
             {isPlaying ? (
               <MdOutlinePause className="w-6 h-6 text-black" />
@@ -193,11 +211,23 @@ export const Player = () => {
           </button>
           <button
             onClick={handleNextSong}
-            className="hover:text-neutral-100 transition cursor-auto"
+            className={cn(
+              "cursor-auto",
+              currentSong?.title &&
+                "hover:text-neutral-100 transition cursor-auto",
+              !currentSong?.title && "text-neutral-600"
+            )}
           >
             <GiNextButton className="w-6 h-6" />
           </button>
-          <button className="hover:text-neutral-100 transition cursor-auto">
+          <button
+            className={cn(
+              "cursor-auto",
+              currentSong?.title &&
+                "hover:text-neutral-100 transition cursor-auto",
+              !currentSong?.title && "text-neutral-600"
+            )}
+          >
             <LuRepeat className="w-4 h-4" />
           </button>
         </div>
@@ -207,6 +237,7 @@ export const Player = () => {
           </span>
           <Slider
             className="w-full cursor-auto"
+            disabled={!currentSong?.title}
             styles={{
               track: { backgroundColor: "#fff" },
               rail: { backgroundColor: "#636363" },
@@ -239,13 +270,33 @@ export const Player = () => {
           </Link>
           <button onClick={handleMute} className="cursor-auto">
             {volume > 0.7 ? (
-              <RxSpeakerLoud className="w-4 h-4 hover:text-neutral-100 transition" />
+              <RxSpeakerLoud
+                className={cn(
+                  "w-4 h-4",
+                  currentSong?.title && "hover:text-neutral-100 transition"
+                )}
+              />
             ) : volume > 0.3 ? (
-              <RxSpeakerModerate className="w-4 h-4 hover:text-neutral-100 transition" />
+              <RxSpeakerModerate
+                className={cn(
+                  "w-4 h-4",
+                  currentSong?.title && "hover:text-neutral-100 transition"
+                )}
+              />
             ) : volume > 0 ? (
-              <RxSpeakerQuiet className="w-4 h-4 hover:text-neutral-100 transition" />
+              <RxSpeakerQuiet
+                className={cn(
+                  "w-4 h-4",
+                  currentSong?.title && "hover:text-neutral-100 transition"
+                )}
+              />
             ) : (
-              <RxSpeakerOff className="w-4 h-4 hover:text-neutral-100 transition" />
+              <RxSpeakerOff
+                className={cn(
+                  "w-4 h-4",
+                  currentSong?.title && "hover:text-neutral-100 transition"
+                )}
+              />
             )}
           </button>
           <Slider
@@ -255,6 +306,7 @@ export const Player = () => {
               rail: { backgroundColor: "#636363" },
               handle: { backgroundColor: "#fff", border: "none", opacity: 100 },
             }}
+            disabled={!currentSong?.title}
             min={0}
             max={1}
             step={0.01}

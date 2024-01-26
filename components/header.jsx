@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { GoSearch } from "react-icons/go";
+import { RxCross1 } from "react-icons/rx";
 
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
@@ -19,10 +20,16 @@ export const Header = ({ scrolled, bgColor }) => {
 
   useEffect(() => {
     if (!debouncedValue) return;
-    if (pathname.includes("/search")) {
+    if (pathname.includes("/search") && value) {
       router.push(`/search/${debouncedValue.replaceAll(" ", "-")}`);
     }
-  }, [debouncedValue, router, pathname]);
+  }, [debouncedValue, router, pathname, value]);
+
+  useEffect(() => {
+    if (pathname === "/") {
+      setValue("");
+    }
+  }, [pathname]);
 
   return (
     <header
@@ -52,11 +59,22 @@ export const Header = ({ scrolled, bgColor }) => {
           <div className="relative">
             <GoSearch className="h-5 w-5 absolute left-2 top-2 text-neutral-300" />
             <input
-              className="bg-neutral-800 py-2 px-4 rounded-full pl-8 text-sm placeholder:text-neutral-500 w-72"
+              className="bg-neutral-800 py-2 px-8 rounded-full text-sm placeholder:text-neutral-500 w-72"
               placeholder="What do you want to listen to?"
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
+            {value && (
+              <button
+                className="cursor-auto"
+                onClick={() => {
+                  setValue("");
+                  router.push("/search");
+                }}
+              >
+                <RxCross1 className="h-4 w-4 absolute right-2 top-2.5 text-neutral-300" />
+              </button>
+            )}
           </div>
         )}
       </div>

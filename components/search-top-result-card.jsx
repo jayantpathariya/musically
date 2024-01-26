@@ -43,7 +43,7 @@ export const SearchTopResultCard = ({ song }) => {
         className="w-28 rounded-md mb-2 shadow-lg shadow-black"
       />
 
-      <p className="text-3xl font-bold mb-1">{song?.title}</p>
+      <p className="text-3xl font-bold mb-1 line-clamp-1">{song?.title}</p>
       <p className="text-sm">
         <span className="text-neutral-400 capitalize">{song?.type} </span>
         {song?.more_info?.singers && (
