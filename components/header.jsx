@@ -9,15 +9,20 @@ import { cn } from "@/lib/utils";
 import { useDebounce } from "@/hooks/useDebounce";
 
 export const Header = ({ scrolled, bgColor }) => {
-  const [value, setValue] = useState("");
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const query = pathname.includes("/search") ? pathname.split("/").pop() : "";
+
+  const [value, setValue] = useState(query || "");
   const debouncedValue = useDebounce(value);
 
-  const router = useRouter();
-  const pathname = usePathname();
-
   useEffect(() => {
-    router.push(`/search/${debouncedValue.replaceAll(" ", "-")}`);
-  }, [debouncedValue, router]);
+    if (!debouncedValue) return;
+    if (pathname.includes("/search")) {
+      router.push(`/search/${debouncedValue.replaceAll(" ", "-")}`);
+    }
+  }, [debouncedValue, router, pathname]);
 
   return (
     <header
