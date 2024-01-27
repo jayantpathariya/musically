@@ -1,13 +1,13 @@
 import { Figtree } from "next/font/google";
 
+import ReduxProvider from "@/providers/redux-provider";
 import { Sidebar } from "@/components/sidebar";
 import { Player } from "@/components/player";
-import ReduxProvider from "@/providers/redux-provider";
+import { MobileNav } from "@/components/mobile-nav";
+import { MobilePlayer } from "@/components/mobile-player";
 
 import "./globals.css";
 import "rc-slider/assets/index.css";
-import { MobileNav } from "@/components/mobile-nav";
-import { MobilePlayer } from "@/components/mobile-player";
 
 const font = Figtree({ subsets: ["latin"] });
 

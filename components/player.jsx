@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Slider from "rc-slider";
+import { useMedia } from "react-use";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,6 +29,8 @@ export const Player = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [volume, setVolume] = useState(0.1);
 
+  const isMobile = useMedia("(max-width: 768px)");
+
   const dispatch = useDispatch();
   const pathname = usePathname();
 
@@ -36,7 +39,7 @@ export const Player = () => {
   const soundRef = useRef(null);
 
   useEffect(() => {
-    if (currentSong?.download_links) {
+    if (currentSong?.download_links && !isMobile) {
       soundRef.current = new Howl({
         src: [currentSong?.download_links[4]?.link],
         autoplay: true,
@@ -60,7 +63,7 @@ export const Player = () => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [songs, index, currentSong?.download_links, dispatch]);
+  }, [songs, index, currentSong?.download_links, dispatch, isMobile]);
 
   useEffect(() => {
     if (soundRef.current) {
