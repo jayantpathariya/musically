@@ -37,7 +37,7 @@ export const MobileNav = () => {
   }, [pathname]);
 
   return (
-    <div className="sticky left-0 bg-black md:hidden p-4 flex items-center justify-between">
+    <div className="fixed bottom-0 w-full left-0 bg-black md:hidden p-4 flex items-center justify-between">
       {routes.map((route) => (
         <Link
           href={route.href}

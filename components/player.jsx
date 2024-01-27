@@ -63,7 +63,7 @@ export const Player = () => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [songs, index, currentSong?.download_links, dispatch, isMobile]);
+  }, [songs, index, currentSong?.download_links, dispatch]);
 
   useEffect(() => {
     if (soundRef.current) {
