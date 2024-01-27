@@ -35,13 +35,15 @@ export const SearchTopResultCard = ({ song }) => {
       }`}
       className="inline-block bg-neutral-800 p-4 rounded-md w-full hover:bg-neutral-700 transition duration-300 relative group"
     >
-      <Image
-        src={createImageLinks(song?.image)[2]?.link}
-        alt={`${song?.title} cover`}
-        width={100}
-        height={100}
-        className="w-28 rounded-md mb-2 shadow-lg shadow-black"
-      />
+      {song?.image && (
+        <Image
+          src={createImageLinks(song?.image)[2]?.link}
+          alt={`${song?.title} cover`}
+          width={100}
+          height={100}
+          className="w-28 rounded-md mb-2 shadow-lg shadow-black"
+        />
+      )}
 
       <p className="text-3xl font-bold mb-1 line-clamp-1">{song?.title}</p>
       <p className="text-sm">

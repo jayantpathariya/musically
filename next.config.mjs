@@ -22,6 +22,14 @@ const nextConfig = {
         protocol: "http",
         hostname: "c.saavncdn.com",
       },
+      {
+        protocol: "http",
+        hostname: "pli.saavncdn.com",
+      },
+      {
+        protocol: "http",
+        hostname: "c.sop.saavncdn.com",
+      },
     ],
   },
 };

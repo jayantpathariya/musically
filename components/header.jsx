@@ -13,7 +13,11 @@ export const Header = ({ scrolled, bgColor }) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const query = pathname.includes("/search") ? pathname.split("/").pop() : "";
+  const query = pathname.includes("/search")
+    ? pathname.split("/").length > 2
+      ? pathname.split("/").pop()
+      : ""
+    : "";
 
   const [value, setValue] = useState(query || "");
   const debouncedValue = useDebounce(value);

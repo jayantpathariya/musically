@@ -1,4 +1,5 @@
 import { getDiscover } from "@/actions/get-discover";
+import { HeaderBackButton } from "@/components/header-back-button";
 import { PlaylistCard } from "@/components/playlist-card";
 import { createImageLinks, formatArtist, getLink } from "@/lib/utils";
 
@@ -10,10 +11,13 @@ const BrowseTypePage = async ({ params }) => {
   const result = await getDiscover(params.type);
 
   return (
-    <div className="mt-8">
-      <h1 className="text-7xl font-bold">{pageName}</h1>
+    <div className="md:mt-8">
+      <HeaderBackButton />
+      <h1 className="text-4xl md:text-7xl font-bold">{pageName}</h1>
       <div className="mt-6">
-        <h2 className="text-2xl font-bold mb-3">Discover {pageName}</h2>
+        <h2 className="text-xl md:text-2xl font-bold mb-3">
+          Discover {pageName}
+        </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {result?.map((item) => {
             return (

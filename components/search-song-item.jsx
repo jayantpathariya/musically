@@ -56,13 +56,17 @@ export const SearchSongItem = ({ songId }) => {
               <RiPlayFill className="w-6 h-6" />
             </button>
           </div>
-          <Image
-            src={songDetails?.image}
-            alt={`${songDetails?.title} cover`}
-            width={40}
-            height={40}
-            className="w-10 h-10 rounded-sm"
-          />
+          {songDetails?.image && (
+            <div className="w-10 h-10">
+              <Image
+                src={songDetails?.image}
+                alt={`${songDetails?.title} cover`}
+                width={40}
+                height={40}
+                className="w-full h-full rounded-sm"
+              />
+            </div>
+          )}
         </div>
         <div>
           <p
@@ -81,13 +85,13 @@ export const SearchSongItem = ({ songId }) => {
         </div>
       </div>
       <div className="flex items-center gap-x-4 text-neutral-400">
-        <button className="opacity-0 group-hover:opacity-100 hover:text-neutral-100 hover:scale-105 transition">
+        <button className="hidden md:inline-block opacity-0 group-hover:opacity-100 hover:text-neutral-100 hover:scale-105 transition">
           <LuHeart className="w-4 h-4" />
         </button>
-        <span className="text-sm">
+        <span className="text-sm hidden md:inline-block">
           {secondsToMinutes(songDetails?.more_info?.duration)}
         </span>
-        <button className="opacity-0 group-hover:opacity-100 hover:text-neutral-100 transition">
+        <button className="md:opacity-0 group-hover:opacity-100 hover:text-neutral-100 transition">
           <HiDotsHorizontal className="w-4 h-4" />
         </button>
       </div>
