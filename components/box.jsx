@@ -6,7 +6,7 @@ export const Box = forwardRef(({ children, className }, ref) => {
   return (
     <div
       ref={ref}
-      className={cn("bg-neutral-900 rounded-lg w-full", className)}
+      className={cn("bg-neutral-900 md:rounded-lg w-full", className)}
     >
       {children}
     </div>

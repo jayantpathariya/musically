@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --translateX-value: -100%; /* Default value */
+}
+
 body {
   background-color: #000;
   color: #fff;
@@ -10,12 +14,19 @@ body {
 html,
 body,
 :root {
-  min-height: 100vh;
+  height: 100%;
 }
 
 /* width */
 ::-webkit-scrollbar {
   width: 15px;
+}
+
+@media (max-width: 640px) {
+  ::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 50%;
+  }
 }
 
 /* Track
@@ -45,6 +56,10 @@ body,
   background-color: #000 !important;
 }
 
+.rc-slider-disabled.mobile-slider {
+  background-color: transparent !important;
+}
+
 .rc-slider-disabled .rc-slider-handle {
   display: none;
 }
@@ -55,4 +70,17 @@ body,
 
 .rc-slider-handle {
   box-shadow: none !important;
+}
+
+@keyframes text-animation {
+  0% {
+    transform: translateX(var(--translateX-value));
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.text-animation {
+  animation: text-animation 5s linear infinite alternate;
 }

@@ -34,9 +34,7 @@ export const Header = ({ scrolled, bgColor }) => {
   return (
     <header
       className={cn(
-        "p-4 flex items-center justify-between sticky left-0 top-0 z-50",
-        scrolled &&
-          "flex items-center justify-between sticky left-0 top-0 z-20 transition duration-300",
+        "p-4 hidden md:flex items-center justify-between sticky left-0 top-0 z-50 transition duration-300",
         scrolled && bgColor
       )}
     >

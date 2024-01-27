@@ -21,7 +21,7 @@ export const Playlists = ({ title, playlists }) => {
             {playlists?.map((playlist) => {
               return (
                 <div
-                  className="embla__slide shrink-0 basis-1/2 md:basis-[32%] lg:basis-[24%] xl:basis-[19%]"
+                  className="embla__slide shrink-0 basis-[48%] md:basis-[32%] lg:basis-[24%] xl:basis-[19%]"
                   key={playlist.id}
                 >
                   <PlaylistCard

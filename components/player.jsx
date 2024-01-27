@@ -58,6 +58,8 @@ export const Player = () => {
     return () => {
       soundRef.current?.unload();
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [songs, index, currentSong?.download_links, dispatch]);
 
   useEffect(() => {
@@ -142,7 +144,7 @@ export const Player = () => {
   };
 
   return (
-    <div className="p-3 pt-0 text-sm grid grid-cols-4 gap-x-4 items-center">
+    <div className="hidden p-3 pt-0 text-sm md:grid grid-cols-4 gap-x-4 items-center">
       <div className="flex items-center gap-x-4">
         {currentSong?.image && (
           <>
