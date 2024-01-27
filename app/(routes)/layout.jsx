@@ -7,7 +7,6 @@ import { Box } from "@/components/box";
 import { Header } from "@/components/header";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { MobilePlayer } from "@/components/mobile-player";
 
 const SiteLayout = ({ children }) => {
   const scrollRef = useRef(null);

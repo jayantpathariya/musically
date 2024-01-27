@@ -115,7 +115,7 @@ export const MobilePlayer = () => {
           </div>
           <button
             disabled={!currentSong?.title}
-            className=" text-neutral-100 disabled:text-neutral-400"
+            className="p-2 text-neutral-100 disabled:text-neutral-400"
             onClick={handleTogglePlay}
           >
             {isPlaying ? (

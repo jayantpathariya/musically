@@ -9,7 +9,7 @@ export const HorizontalPlaylistCard = () => {
   return (
     <Link
       href="/playlist"
-      className="bg-neutral-800 rounded-md overflow-hidden flex  items-center justify-between gap-x-2 hover:bg-neutral-700 transition duration-300 group"
+      className="bg-neutral-800 rounded-md overflow-hidden flex  items-center justify-between gap-x-2 md:hover:bg-neutral-700 transition duration-300 group"
     >
       <div className="flex items-center gap-x-2 ">
         <Image
@@ -18,7 +18,7 @@ export const HorizontalPlaylistCard = () => {
           width={50}
           alt="playlist poster"
         />
-        <p className="font-semibold text-sm">Playlist 1</p>
+        <p className="font-semibold text-xs md:text-sm">Playlist 1</p>
       </div>
       <div className="p-2 opacity-0 group-hover:opacity-100">
         <PlayButton onClick={() => {}} />

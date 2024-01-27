@@ -38,7 +38,7 @@ export const PlaylistCard = ({ title, image, subtitle, type, link, id }) => {
   return (
     <>
       <Link href={`/playlist/${type}/${link}`}>
-        <div className="bg-neutral-800 rounded-md p-4 hover:bg-neutral-700 transition duration-300 group h-full">
+        <div className="bg-neutral-800 rounded-md p-4 md:hover:bg-neutral-700 transition duration-300 group h-full">
           <div className="relative">
             <Image
               src={image}
