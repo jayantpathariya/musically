@@ -5,6 +5,7 @@ import { formatArtist, formatDuration, getLink } from "@/lib/utils";
 import { Table } from "@/components/table";
 import { PlaylistHeader } from "@/components/playlist-header";
 import { HeaderBackButton } from "@/components/header-back-button";
+import { MobilePlaylistHeader } from "@/components/mobile-playlist-header";
 
 const PlaylistIdPage = async ({ params }) => {
   const result = await getPlaylist({
@@ -41,6 +42,11 @@ const PlaylistIdPage = async ({ params }) => {
       </div>
       <div>
         <PlaylistHeader
+          type={params.type}
+          playlistId={params.playlistId}
+          link={getLink(result)}
+        />
+        <MobilePlaylistHeader
           type={params.type}
           playlistId={params.playlistId}
           link={getLink(result)}
