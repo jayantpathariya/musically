@@ -33,7 +33,7 @@ export const PlaylistHeader = ({ type, playlistId, link }) => {
   };
 
   return (
-    <div className="flex items-center gap-x-6 mb-6">
+    <div className="hidden md:flex items-center gap-x-6 mb-6 ">
       <PlayButton size="lg" onClick={handlePlay} />
       <button>
         <LuHeart className="h-8 w-8 text-neutral-400 hover:text-neutral-100 hover:scale-105 transition " />

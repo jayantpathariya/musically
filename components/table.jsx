@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useMedia } from "react-use";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { GrPlayFill } from "react-icons/gr";
@@ -19,13 +20,15 @@ export const Table = ({
   const { currentSong } = useSelector((state) => state.song);
   const dispatch = useDispatch();
 
+  const isMobile = useMedia("(max-width: 768px)");
+
   const handlePlaySong = (playlist, song, index) => {
     dispatch(setSong({ playlist, song, index }));
   };
 
   return (
     <table className="w-full text-left overflow-hidden text-sm text-neutral-400">
-      {showHeader && (
+      {showHeader && !isMobile && (
         <thead className="border-b border-neutral-700/40">
           <tr className="text-neutral-400">
             <th className="p-2 font-normal">#</th>
@@ -46,19 +49,21 @@ export const Table = ({
               className="hover:bg-neutral-700/40 cursor-pointer transition duration-300 text-neutral-400 group text-left"
               onClick={() => handlePlaySong(playlist, song, index)}
             >
-              <td className="p-2">
-                <div className="w-4 h-4">
-                  <span
-                    className={cn(
-                      "group-hover:hidden",
-                      currentSong?.id === song?.id && "text-green-500"
-                    )}
-                  >
-                    {index + startIndex}
-                  </span>
-                  <GrPlayFill className="text-white hidden group-hover:block" />
-                </div>
-              </td>
+              {!isMobile && (
+                <td className="p-2">
+                  <div className="w-4 h-4">
+                    <span
+                      className={cn(
+                        "group-hover:hidden",
+                        currentSong?.id === song?.id && "text-green-500"
+                      )}
+                    >
+                      {index + startIndex}
+                    </span>
+                    <GrPlayFill className="text-white hidden group-hover:block" />
+                  </div>
+                </td>
+              )}
               <td className="p-2">
                 <div className="flex items-center gap-x-4">
                   <Image
@@ -86,25 +91,31 @@ export const Table = ({
                   </div>
                 </div>
               </td>
-              <td>
-                <p
-                  className="p-2 line-clamp-1"
-                  dangerouslySetInnerHTML={{ __html: song?.more_info?.album }}
-                />
-              </td>
-              <td className="p-2 ">
-                <LuHeart
-                  className={cn(
-                    "opacity-0 group-hover:opacity-100 hover:text-neutral-100 transition",
-                    isLiked &&
-                      "opacity-100 fill-green-500 text-green-500 hover:text-green-500 hover:scale-105 transition"
-                  )}
-                />
-              </td>
-              <td className="p-2">
-                {secondsToMinutes(song?.more_info?.duration)}
-              </td>
-              <td className="p-2 opacity-0 group-hover:opacity-100 hover:text-neutral-100 transition">
+              {!isMobile && (
+                <td>
+                  <p
+                    className="p-2 line-clamp-1"
+                    dangerouslySetInnerHTML={{ __html: song?.more_info?.album }}
+                  />
+                </td>
+              )}
+              {!isMobile && (
+                <td className="p-2 ">
+                  <LuHeart
+                    className={cn(
+                      "opacity-0 group-hover:opacity-100 hover:text-neutral-100 transition",
+                      isLiked &&
+                        "opacity-100 fill-green-500 text-green-500 hover:text-green-500 hover:scale-105 transition"
+                    )}
+                  />
+                </td>
+              )}
+              {!isMobile && (
+                <td className="p-2">
+                  {secondsToMinutes(song?.more_info?.duration)}
+                </td>
+              )}
+              <td className="p-2 md:opacity-0 group-hover:opacity-100 hover:text-neutral-100 transition">
                 <HiDotsHorizontal className="w-4 h-4" />
               </td>
             </tr>
