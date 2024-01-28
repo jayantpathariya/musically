@@ -22,7 +22,11 @@ const QueuePage = () => {
       <h1 className="text-2xl font-bold mb-4">Queue</h1>
       <h2 className="font-bold text-neutral-400">Now playing</h2>
       <div className="mt-2">
-        <Table playlist={[currentSong]} showHeader={false} />
+        <Table
+          playlist={[currentSong]}
+          showHeader={false}
+          playlistName="Queue"
+        />
       </div>
       {songs.length > 1 && (
         <div className="mt-8">
@@ -31,6 +35,7 @@ const QueuePage = () => {
             playlist={songs.slice(index + 1)}
             startIndex={2}
             showHeader={false}
+            playlistName="Queue"
           />
         </div>
       )}

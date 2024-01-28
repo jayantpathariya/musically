@@ -25,7 +25,9 @@ export const PlayerModal = ({
 }) => {
   const [lyrics, setLyrics] = useState("");
 
-  const { currentSong, songs, index } = useSelector((state) => state.song);
+  const { currentSong, songs, index, playlistName } = useSelector(
+    (state) => state.song
+  );
 
   const dispatch = useDispatch();
   const ref = useRef();
@@ -109,7 +111,7 @@ export const PlayerModal = ({
                   <IoChevronDown className="h-5 w-5" />
                 </button>
                 <div className="flex-grow text-center">
-                  <p className="text-sm font-bold">Playlist</p>
+                  <p className="text-sm font-bold">{playlistName}</p>
                 </div>
               </header>
               <div className="w-full mx-auto flex flex-col items-center justify-center">

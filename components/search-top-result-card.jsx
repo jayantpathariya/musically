@@ -20,7 +20,14 @@ export const SearchTopResultCard = ({ song }) => {
       const result = await axios(`/api/songs/${song.id}`);
       const data = result.data;
 
-      dispatch(setSong({ playlist: [], song: data[0], index: 0 }));
+      dispatch(
+        setSong({
+          playlist: [],
+          song: data[0],
+          index: 0,
+          playlistName: data.title,
+        })
+      );
     } catch (error) {
       console.log(error);
     }

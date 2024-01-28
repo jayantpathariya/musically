@@ -54,8 +54,6 @@ export const MobilePlayer = () => {
     };
   }, [currentSong, isMobile, dispatch]);
 
-  console.log(currentSong);
-
   const handleSeek = useCallback(
     (value) => {
       const newPosition = parseFloat(value);

@@ -17,6 +17,7 @@ export const Table = ({
   startIndex = 1,
   showHeader = true,
   isLiked,
+  playlistName,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const { currentSong } = useSelector((state) => state.song);
@@ -33,7 +34,7 @@ export const Table = ({
   }
 
   const handlePlaySong = (playlist, song, index) => {
-    dispatch(setSong({ playlist, song, index }));
+    dispatch(setSong({ playlist, song, index, playlistName: playlistName }));
   };
 
   return (

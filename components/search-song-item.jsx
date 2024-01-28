@@ -37,7 +37,14 @@ export const SearchSongItem = ({ songId }) => {
 
   const handlePlay = async () => {
     try {
-      dispatch(setSong({ playlist: [], song: songDetails, index: 0 }));
+      dispatch(
+        setSong({
+          playlist: [],
+          song: songDetails,
+          index: 0,
+          playlistName: songDetails.title,
+        })
+      );
     } catch (error) {
       console.log(error);
     }

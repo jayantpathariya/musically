@@ -16,7 +16,7 @@ const PlaylistIdPage = async ({ params }) => {
   return (
     <div>
       <HeaderBackButton />
-      <div className="flex flex-col md:flex-row items-center gap-x-6 mb-8">
+      <div className="flex flex-col md:flex-row items-center gap-x-6 mb-8 mt-4">
         <Image
           src={result?.image}
           width={150}
@@ -51,7 +51,7 @@ const PlaylistIdPage = async ({ params }) => {
           playlistId={params.playlistId}
           link={getLink(result)}
         />
-        <Table playlist={result?.list} />
+        <Table playlist={result?.list} playlistName={result?.title} />
       </div>
     </div>
   );

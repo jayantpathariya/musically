@@ -22,10 +22,22 @@ export const PlaylistHeader = ({ type, playlistId, link }) => {
 
       if (type !== "song") {
         dispatch(
-          setSong({ playlist: data.list, song: data.list[0], index: 0 })
+          setSong({
+            playlist: data.list,
+            song: data.list[0],
+            index: 0,
+            playlistName: data.title,
+          })
         );
       } else {
-        dispatch(setSong({ playlist: data, song: data[0], index: 0 }));
+        dispatch(
+          setSong({
+            playlist: data,
+            song: data[0],
+            index: 0,
+            playlistName: data.title,
+          })
+        );
       }
     } catch (error) {
       console.log(error);

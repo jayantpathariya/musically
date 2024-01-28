@@ -41,7 +41,12 @@ const SearchQueryPage = async ({ params }) => {
             <Playlists title="Albums" playlists={albums} />
           )}
           {artists?.length > 0 && (
-            <Playlists title="Artists" playlists={artists} />
+            <Playlists
+              title="Artists"
+              playlists={
+                topQuery?.type === "artist" ? [topQuery, ...artists] : artists
+              }
+            />
           )}
         </div>
       </div>

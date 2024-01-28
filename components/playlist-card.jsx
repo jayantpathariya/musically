@@ -25,10 +25,22 @@ export const PlaylistCard = ({ title, image, subtitle, type, link, id }) => {
 
       if (type !== "song") {
         dispatch(
-          setSong({ playlist: data.list, song: data.list[0], index: 0 })
+          setSong({
+            playlist: data.list,
+            song: data.list[0],
+            index: 0,
+            playlistName: data.title,
+          })
         );
       } else {
-        dispatch(setSong({ playlist: data, song: data[0], index: 0 }));
+        dispatch(
+          setSong({
+            playlist: data,
+            song: data[0],
+            index: 0,
+            playlistName: data.title,
+          })
+        );
       }
     } catch (error) {
       console.log(error);
@@ -37,7 +49,11 @@ export const PlaylistCard = ({ title, image, subtitle, type, link, id }) => {
 
   return (
     <>
-      <Link href={`/playlist/${type}/${link}`}>
+      <Link
+        href={
+          type !== "artist" ? `/playlist/${type}/${link}` : `/artist/${link}`
+        }
+      >
         <div className="bg-neutral-800 rounded-md p-4 md:hover:bg-neutral-700 transition duration-300 group h-full">
           <div className="relative">
             <Image

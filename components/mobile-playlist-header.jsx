@@ -21,9 +21,16 @@ export const MobilePlaylistHeader = ({ type, playlistId, link }) => {
       }
       const data = result.data;
 
+      console.log(data);
+
       if (type !== "song") {
         dispatch(
-          setSong({ playlist: data.list, song: data.list[0], index: 0 })
+          setSong({
+            playlist: data.list,
+            song: data.list[0],
+            index: 0,
+            playlistName: data.title,
+          })
         );
       } else {
         dispatch(setSong({ playlist: data, song: data[0], index: 0 }));
