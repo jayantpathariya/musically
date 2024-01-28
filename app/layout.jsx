@@ -8,6 +8,7 @@ import { MobilePlayer } from "@/components/mobile-player";
 
 import "./globals.css";
 import "rc-slider/assets/index.css";
+import { PlayerProvider } from "@/providers/player-provider";
 
 const font = Figtree({ subsets: ["latin"] });
 
@@ -26,8 +27,10 @@ export default function RootLayout({ children }) {
             <Sidebar />
             <main className="col-span-4 md:col-span-3 ">{children}</main>
           </div>
-          <Player />
-          <MobilePlayer />
+          <PlayerProvider>
+            <Player />
+            <MobilePlayer />
+          </PlayerProvider>
           <MobileNav />
         </ReduxProvider>
       </body>

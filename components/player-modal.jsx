@@ -5,48 +5,34 @@ import Slider from "rc-slider";
 import Sheet from "react-modal-sheet";
 import axios from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { IoChevronDown } from "react-icons/io5";
 import { MdOutlinePause } from "react-icons/md";
 import { RiPlayFill } from "react-icons/ri";
 
-import { playNextSong, playPrevSong } from "@/redux/songSlice";
 import { cn, createImageLinks, formatArtist } from "@/lib/utils";
 import { GiNextButton, GiPreviousButton } from "react-icons/gi";
 import { LuRepeat, LuShuffle } from "react-icons/lu";
+import { usePlayer } from "@/hooks/use-player";
 
-export const PlayerModal = ({
-  isOpen,
-  setIsOpen,
-  soundRef,
-  isPlaying,
-  seek,
-  setSeek,
-}) => {
+export const PlayerModal = ({ isOpen, setIsOpen }) => {
   const [lyrics, setLyrics] = useState("");
+
+  const {
+    isPlaying,
+    seek,
+    duration,
+    handleTogglePlay,
+    handleSeek,
+    handleNextSong,
+    handlePrevSong,
+  } = usePlayer();
 
   const { currentSong, songs, index, playlistName } = useSelector(
     (state) => state.song
   );
 
-  const dispatch = useDispatch();
   const ref = useRef();
-
-  const updateProgress = useCallback(() => {
-    if (soundRef.current) {
-      setSeek(soundRef.current?.seek());
-      requestAnimationFrame(updateProgress);
-    }
-  }, [soundRef, setSeek]);
-
-  // update progress bar
-  useEffect(() => {
-    requestAnimationFrame(updateProgress);
-
-    return () => {
-      cancelAnimationFrame(updateProgress);
-    };
-  }, [currentSong, updateProgress]);
 
   const getSongLyrics = useCallback(async () => {
     try {
@@ -62,38 +48,6 @@ export const PlayerModal = ({
       getSongLyrics();
     }
   }, [currentSong?.id, getSongLyrics]);
-
-  const handleSeek = (value) => {
-    const newPosition = parseFloat(value);
-    setSeek(newPosition);
-    if (soundRef.current) {
-      soundRef.current.pause();
-      soundRef.current.seek(newPosition);
-      soundRef.current.play();
-    }
-  };
-
-  const handleTogglePlay = () => {
-    if (soundRef.current) {
-      if (isPlaying) {
-        soundRef.current.pause();
-      } else {
-        soundRef.current.play();
-      }
-    }
-  };
-
-  const handleNextSong = () => {
-    if (soundRef.current) {
-      dispatch(playNextSong());
-    }
-  };
-
-  const handlePrevSong = () => {
-    if (soundRef.current) {
-      dispatch(playPrevSong());
-    }
-  };
 
   return (
     <Sheet
@@ -145,7 +99,7 @@ export const PlayerModal = ({
                         opacity: 100,
                       },
                     }}
-                    max={soundRef.current ? soundRef.current?.duration() : 100}
+                    max={duration || 100}
                     step={0.01}
                     value={seek}
                     onChange={handleSeek}
@@ -156,11 +110,7 @@ export const PlayerModal = ({
                         "--:--"}
                     </span>
                     <span className="text-xs">
-                      {new Date(
-                        soundRef.current
-                          ? soundRef.current?.duration() * 1000
-                          : 0
-                      )
+                      {new Date(duration ? duration * 1000 : 0)
                         .toISOString()
                         .substr(14, 5) || "--:--"}
                     </span>
@@ -226,7 +176,7 @@ export const PlayerModal = ({
                   </button>
                 </div>
                 {!!lyrics && (
-                  <div className="bg-neutral-800 mt-6 p-4 rounded-md">
+                  <div className="bg-neutral-800 mt-6 p-4 rounded-md w-full">
                     <p
                       className="text-neutral-300"
                       dangerouslySetInnerHTML={{ __html: lyrics }}

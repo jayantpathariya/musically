@@ -2,126 +2,26 @@
 
 import Image from "next/image";
 
-import { Howl } from "howler";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useMedia } from "react-use";
-
-import { playNextSong, playPrevSong } from "@/redux/songSlice";
-import { createImageLinks, formatArtist } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
+import Slider from "rc-slider";
 import { useSelector } from "react-redux";
 import { MdOutlinePause } from "react-icons/md";
 import { RiPlayFill } from "react-icons/ri";
 import { TextAnimate } from "./text-animate";
 import { PlayerModal } from "./player-modal";
-import { ProgressBar } from "./progress-bar";
+
+import { createImageLinks, formatArtist } from "@/lib/utils";
+import { usePlayer } from "@/hooks/use-player";
 
 export const MobilePlayer = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [seek, setSeek] = useState(0);
-  const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  const { isPlaying, seek, handleTogglePlay, handleSeek } = usePlayer();
 
   const { currentSong } = useSelector((state) => state.song);
 
-  const dispatch = useDispatch();
-  const isMobile = useMedia("(max-width: 768px)");
-
   const soundRef = useRef(null);
-
-  useEffect(() => {
-    if (!currentSong?.download_links || !isMobile) return;
-
-    soundRef.current = new Howl({
-      src: [currentSong.download_links[4]?.link],
-      autoplay: true,
-      html5: true,
-      volume: 0.1,
-      onplay: () => {
-        setIsPlaying(true);
-      },
-      onpause: () => {
-        setIsPlaying(false);
-      },
-      onend: () => {
-        setSeek(0);
-        setIsPlaying(false);
-        dispatch(playNextSong());
-      },
-    });
-
-    if ("mediaSession" in navigator) {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: currentSong.title,
-        artist: formatArtist(currentSong.more_info),
-        artwork: createImageLinks(currentSong.image).map((image) => ({
-          src: image.link,
-          sizes: image.quality,
-          type: `image/${image.link.split(".").pop()}`,
-        })),
-      });
-
-      navigator.mediaSession.setActionHandler("play", () => {
-        soundRef.current.play();
-      });
-
-      navigator.mediaSession.setActionHandler("pause", () => {
-        soundRef.current.pause();
-      });
-
-      navigator.mediaSession.setActionHandler("nexttrack", () => {
-        dispatch(playNextSong());
-      });
-
-      navigator.mediaSession.setActionHandler("previoustrack", () => {
-        dispatch(playPrevSong());
-      });
-
-      navigator.mediaSession.setActionHandler("seekbackward", () => {
-        soundRef.current.seek(soundRef.current.seek() - 10);
-      });
-
-      navigator.mediaSession.setActionHandler("seekforward", () => {
-        soundRef.current.seek(soundRef.current.seek() + 10);
-      });
-
-      navigator.mediaSession.setActionHandler("seekto", (details) => {
-        soundRef.current.seek(details.seekTime);
-      });
-
-      navigator.mediaSession.setActionHandler("stop", () => {
-        soundRef.current.stop();
-      });
-    }
-
-    return () => {
-      soundRef.current?.unload();
-    };
-  }, [currentSong, isMobile, dispatch]);
-
-  const handleSeek = useCallback(
-    (value) => {
-      const newPosition = parseFloat(value);
-      setSeek(newPosition);
-      if (soundRef.current) {
-        soundRef.current.pause();
-        soundRef.current.seek(newPosition);
-        soundRef.current.play();
-      }
-    },
-    [soundRef]
-  );
-
-  const handleTogglePlay = (e) => {
-    e.stopPropagation();
-    if (soundRef.current) {
-      if (isPlaying) {
-        soundRef.current.pause();
-      } else {
-        soundRef.current.play();
-      }
-    }
-  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -168,24 +68,23 @@ export const MobilePlayer = () => {
           </button>
         </div>
         <div className="absolute -bottom-3.5 left-0 w-full">
-          <ProgressBar
-            soundRef={soundRef}
-            seek={seek}
-            handleSeek={handleSeek}
-            currentSong={currentSong}
-            setSeek={setSeek}
+          <Slider
+            className="mobile-slider"
+            disabled={!currentSong?.title}
+            styles={{
+              track: { backgroundColor: "#fff", height: "2px" },
+              rail: { backgroundColor: "#636363", height: "2px" },
+              handle: { display: "none" },
+            }}
+            max={soundRef.current ? soundRef.current?.duration() : 100}
+            step={0.01}
+            value={seek}
+            onChange={handleSeek}
           />
         </div>
       </div>
       {currentSong?.title && (
-        <PlayerModal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          soundRef={soundRef}
-          isPlaying={isPlaying}
-          seek={seek}
-          setSeek={setSeek}
-        />
+        <PlayerModal isOpen={isOpen} setIsOpen={setIsOpen} />
       )}
     </div>
   );

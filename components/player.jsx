@@ -3,10 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import Slider from "rc-slider";
-import { useMedia } from "react-use";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { LuHeart, LuShuffle, LuRepeat } from "react-icons/lu";
 import { GiNextButton, GiPreviousButton } from "react-icons/gi";
 import { RiPlayFill } from "react-icons/ri";
@@ -18,157 +17,29 @@ import {
   RxSpeakerOff,
 } from "react-icons/rx";
 import { HiOutlineQueueList } from "react-icons/hi2";
-import { Howl } from "howler";
 
-import { cn, createImageLinks, formatArtist } from "@/lib/utils";
-import { playNextSong, playPrevSong, shuffleSongs } from "@/redux/songSlice";
+import { cn, formatArtist } from "@/lib/utils";
+import { usePlayer } from "@/hooks/use-player";
 
 export const Player = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [seek, setSeek] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [volume, setVolume] = useState(0.1);
+  const {
+    isPlaying,
+    seek,
+    volume,
+    duration,
+    handleTogglePlay,
+    handleVolumeChange,
+    handleSeek,
+    handleMute,
+    handleNextSong,
+    handlePrevSong,
+    handleShuffleSongs,
+  } = usePlayer();
 
-  const isMobile = useMedia("(max-width: 768px)");
-
-  const dispatch = useDispatch();
   const pathname = usePathname();
 
-  const { currentSong, songs, index } = useSelector((state) => state.song);
-
-  const soundRef = useRef(null);
-
-  useEffect(() => {
-    if (!currentSong?.download_links) return;
-
-    if (currentSong?.download_links && !isMobile) {
-      soundRef.current = new Howl({
-        src: [currentSong?.download_links[4]?.link],
-        autoplay: true,
-        volume: volume,
-        onplay: () => {
-          setIsPlaying(true);
-        },
-        onpause: () => {
-          setIsPlaying(false);
-        },
-        onend: () => {
-          setSeek(0);
-          setIsPlaying(false);
-          dispatch(playNextSong());
-        },
-      });
-    }
-
-    if ("mediaSession" in navigator) {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: currentSong.title,
-        artist: formatArtist(currentSong.more_info),
-        artwork: createImageLinks(currentSong.image).map((image) => ({
-          src: image.link,
-          sizes: image.quality,
-          type: `image/${image.link.split(".").pop()}`,
-        })),
-      });
-
-      navigator.mediaSession.setActionHandler("play", () => {
-        soundRef.current.play();
-      });
-
-      navigator.mediaSession.setActionHandler("pause", () => {
-        soundRef.current.pause();
-      });
-
-      navigator.mediaSession.setActionHandler("nexttrack", () => {
-        dispatch(playNextSong());
-      });
-
-      navigator.mediaSession.setActionHandler("previoustrack", () => {
-        dispatch(playPrevSong());
-      });
-
-      navigator.mediaSession.setActionHandler("seekbackward", () => {
-        soundRef.current.seek(soundRef.current.seek() - 10);
-      });
-
-      navigator.mediaSession.setActionHandler("seekforward", () => {
-        soundRef.current.seek(soundRef.current.seek() + 10);
-      });
-
-      navigator.mediaSession.setActionHandler("seekto", (details) => {
-        soundRef.current.seek(details.seekTime);
-      });
-
-      navigator.mediaSession.setActionHandler("stop", () => {
-        soundRef.current.stop();
-      });
-    }
-
-    return () => {
-      soundRef.current?.unload();
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [songs, index, currentSong?.download_links, dispatch]);
-
-  useEffect(() => {
-    if (soundRef.current) {
-      soundRef.current.volume(volume);
-    }
-  }, [volume]);
-
-  const updateProgress = useCallback(() => {
-    if (soundRef.current) {
-      setSeek(soundRef.current?.seek());
-      requestAnimationFrame(updateProgress);
-    }
-  }, []);
-
-  // update progress bar
-  useEffect(() => {
-    requestAnimationFrame(updateProgress);
-
-    return () => {
-      cancelAnimationFrame(updateProgress);
-    };
-  }, [currentSong, updateProgress]);
-
-  const handleTogglePlay = () => {
-    if (soundRef.current) {
-      if (isPlaying) {
-        soundRef.current.pause();
-      } else {
-        soundRef.current.play();
-      }
-    }
-  };
-
-  const handleVolumeChange = (value) => {
-    const newVolume = parseFloat(value);
-    setVolume(newVolume);
-  };
-
-  const handleSeek = (value) => {
-    const newPosition = parseFloat(value);
-    setSeek(newPosition);
-    if (soundRef.current) {
-      soundRef.current.pause();
-      soundRef.current.seek(newPosition);
-      soundRef.current.play();
-    }
-  };
-
-  const handleMute = () => {
-    if (soundRef.current) {
-      if (volume > 0) {
-        soundRef.current.volume(0);
-        setVolume(0);
-      } else {
-        soundRef.current.volume(0.1);
-        setVolume(0.1);
-      }
-    }
-  };
+  const { currentSong } = useSelector((state) => state.song);
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
@@ -177,18 +48,6 @@ export const Player = () => {
     } else {
       document.exitFullscreen();
       setIsFullscreen(false);
-    }
-  };
-
-  const handleNextSong = () => {
-    if (soundRef.current) {
-      dispatch(playNextSong());
-    }
-  };
-
-  const handlePrevSong = () => {
-    if (soundRef.current) {
-      dispatch(playPrevSong());
     }
   };
 
@@ -227,7 +86,7 @@ export const Player = () => {
       <div className="flex flex-col items-center gap-y-2 text-neutral-400 col-span-2 w-[80%] justify-self-center">
         <div className="flex items-center gap-x-4 text-neutral-400">
           <button
-            onClick={() => dispatch(shuffleSongs())}
+            onClick={handleShuffleSongs}
             className={cn(
               "cursor-auto",
               currentSong?.title &&
@@ -295,15 +154,13 @@ export const Player = () => {
               rail: { backgroundColor: "#636363" },
               handle: { backgroundColor: "#fff", border: "none", opacity: 100 },
             }}
-            max={soundRef.current ? soundRef.current?.duration() : 100}
+            max={duration || 100}
             step={0.01}
             value={seek}
             onChange={handleSeek}
           />
           <span className="text-xs">
-            {new Date(
-              soundRef.current ? soundRef.current?.duration() * 1000 : 0
-            )
+            {new Date(duration ? duration * 1000 : 0)
               .toISOString()
               .substr(14, 5) || "--:--"}
           </span>
