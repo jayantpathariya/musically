@@ -82,14 +82,17 @@ export const getHomeData = async () => {
       })),
       "promo:vx:data:76": response?.data["promo:vx:data:76"],
       "promo:vx:data:185": response?.data["promo:vx:data:185"],
-      "promo:vx:data:107": response?.data["promo:vx:data:107"],
       "promo:vx:data:113": response?.data["promo:vx:data:113"],
       "promo:vx:data:114": response?.data["promo:vx:data:114"],
       "promo:vx:data:116": response?.data["promo:vx:data:116"],
       "promo:vx:data:212": response?.data["promo:vx:data:212"],
       modules: Object.keys(response?.data?.modules)
         ?.map((key) => {
-          if (key === "radio" || key === "artist_recos") {
+          if (
+            key === "radio" ||
+            key === "artist_recos" ||
+            key === "promo:vx:data:107"
+          ) {
             return null;
           }
 

@@ -8,6 +8,8 @@ import { HiOutlineQueueList } from "react-icons/hi2";
 const QueuePage = () => {
   const { currentSong, songs, index } = useSelector((state) => state.song);
 
+  console.log(songs);
+
   if (!currentSong?.title && !songs?.length) {
     return (
       <div className="h-full flex items-center justify-center flex-col">

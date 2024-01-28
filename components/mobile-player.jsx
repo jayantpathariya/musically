@@ -35,6 +35,7 @@ export const MobilePlayer = () => {
     soundRef.current = new Howl({
       src: [currentSong.download_links[4]?.link],
       autoplay: true,
+      html5: true,
       volume: 0.1,
       onplay: () => {
         setIsPlaying(true);

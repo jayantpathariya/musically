@@ -34,7 +34,12 @@ export const songSlice = createSlice({
       state.currentSong = state.songs[state.index];
     },
     shuffleSongs: (state) => {
-      state.songs = state.songs.sort(() => Math.random() - 0.5);
+      // Shuffle the songs array
+      console.log(state.songs);
+      for (let i = state.songs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [state.songs[i], state.songs[j]] = [state.songs[j], state.songs[i]];
+      }
     },
     repeatSong: (state) => {
       state.songs = state.songs;
@@ -42,6 +47,7 @@ export const songSlice = createSlice({
   },
 });
 
-export const { setSong, playNextSong, playPrevSong } = songSlice.actions;
+export const { setSong, playNextSong, playPrevSong, shuffleSongs, repeatSong } =
+  songSlice.actions;
 
 export default songSlice.reducer;

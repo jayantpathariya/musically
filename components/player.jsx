@@ -21,7 +21,7 @@ import { HiOutlineQueueList } from "react-icons/hi2";
 import { Howl } from "howler";
 
 import { cn, formatArtist } from "@/lib/utils";
-import { playNextSong, playPrevSong } from "@/redux/songSlice";
+import { playNextSong, playPrevSong, shuffleSongs } from "@/redux/songSlice";
 
 export const Player = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -181,6 +181,7 @@ export const Player = () => {
       <div className="flex flex-col items-center gap-y-2 text-neutral-400 col-span-2 w-[80%] justify-self-center">
         <div className="flex items-center gap-x-4 text-neutral-400">
           <button
+            onClick={() => dispatch(shuffleSongs())}
             className={cn(
               "cursor-auto",
               currentSong?.title &&
