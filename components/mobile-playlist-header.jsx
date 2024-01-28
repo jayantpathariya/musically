@@ -2,7 +2,10 @@
 
 import axios from "axios";
 import { RiPlayFill } from "react-icons/ri";
+import { LuPlusCircle, LuShuffle } from "react-icons/lu";
+import { HiDotsHorizontal } from "react-icons/hi";
 import { useDispatch } from "react-redux";
+
 import { setSong } from "@/redux/songSlice";
 
 export const MobilePlaylistHeader = ({ type, playlistId, link }) => {
@@ -31,13 +34,26 @@ export const MobilePlaylistHeader = ({ type, playlistId, link }) => {
   };
 
   return (
-    <header className="flex mb-6">
-      <button
-        onClick={handlePlay}
-        className="ml-auto bg-green-500 h-10 w-10 flex items-center justify-center rounded-full hover:scale-105 transition"
-      >
-        <RiPlayFill className="h-7 w-7 text-black" />
-      </button>
+    <header className="flex items-center justify-between mb-6 md:hidden">
+      <div className="flex items-center gap-x-3 text-neutral-400">
+        <button>
+          <LuPlusCircle className="h-6 w-6 " />
+        </button>
+        <button>
+          <HiDotsHorizontal className="h-6 w-6 " />
+        </button>
+      </div>
+      <div className="flex items-center gap-x-4 text-neutral-400">
+        <button>
+          <LuShuffle className="h-5 w-5 " />
+        </button>
+        <button
+          onClick={handlePlay}
+          className="ml-auto bg-green-500 h-12 w-12 flex items-center justify-center rounded-full hover:scale-105 transition"
+        >
+          <RiPlayFill className="h-9 w-9 text-black" />
+        </button>
+      </div>
     </header>
   );
 };

@@ -12,7 +12,7 @@ export const MobileSearch = () => {
 
   const query = pathname.includes("/search")
     ? pathname.split("/").length > 2
-      ? pathname.split("/").pop()
+      ? pathname.split("/").pop().replaceAll("-", " ")
       : ""
     : "";
 

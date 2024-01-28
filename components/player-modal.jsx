@@ -94,36 +94,44 @@ export const PlayerModal = ({
   };
 
   return (
-    <Sheet ref={ref} isOpen={isOpen} onClose={() => setIsOpen(false)}>
+    <Sheet
+      ref={ref}
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+      className="md:hidden"
+    >
       <Sheet.Container>
-        <Sheet.Content className="bg-neutral-900 p-4">
-          <Sheet.Scroller>
-            <div className="h-full">
-              <header className="flex items-center gap-x-2 mb-8">
+        <Sheet.Content className="bg-neutral-900">
+          <Sheet.Scroller className="p-4">
+            <div>
+              <header className="flex items-center gap-x-2 mb-8 mt-4">
                 <button onClickCapture={() => setIsOpen(false)}>
                   <IoChevronDown className="h-5 w-5" />
                 </button>
-                <p className="text-sm font-bold">Playlist</p>
+                <div className="flex-grow text-center">
+                  <p className="text-sm font-bold">Playlist</p>
+                </div>
               </header>
-              <div className="w-full mx-auto">
+              <div className="w-full mx-auto flex flex-col items-center justify-center">
                 <Image
                   src={createImageLinks(currentSong?.image)[2]?.link}
                   width={500}
                   height={500}
                   alt={`${currentSong?.title} cover`}
-                  className="w-full h-full object-cover rounded-md mb-8"
+                  className="max-w-xs w-full h-full object-cover rounded-md mb-8"
                 />
-                <div className="mb-4">
+                <div className="mb-4 w-full">
                   <div>
-                    <h3 className="text-lg font-bold line-clamp-1">
-                      {currentSong?.title}
-                    </h3>
+                    <h3
+                      className="text-lg font-bold line-clamp-1"
+                      dangerouslySetInnerHTML={{ __html: currentSong?.title }}
+                    />
                     <p className="text-sm text-neutral-300 line-clamp-1">
                       {formatArtist(currentSong?.more_info)}
                     </p>
                   </div>
                 </div>
-                <div className="mb-4">
+                <div className="mb-6 w-full">
                   <Slider
                     disabled={!currentSong?.title}
                     styles={{
@@ -140,7 +148,7 @@ export const PlayerModal = ({
                     value={seek}
                     onChange={handleSeek}
                   />
-                  <div className="flex items-center justify-between text-neutral-400">
+                  <div className="flex items-center justify-between text-neutral-400 p-1">
                     <span className="text-xs">
                       {new Date(seek * 1000).toISOString().substr(14, 5) ||
                         "--:--"}
@@ -156,7 +164,7 @@ export const PlayerModal = ({
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between gap-x-4 text-neutral-200">
+                <div className="flex items-center justify-between gap-x-4 text-neutral-200 w-full">
                   <button
                     className={cn(
                       "cursor-auto",
@@ -165,7 +173,7 @@ export const PlayerModal = ({
                       !currentSong?.title && "text-neutral-800"
                     )}
                   >
-                    <LuShuffle className="w-4 h-4" />
+                    <LuShuffle className="w-5 h-5" />
                   </button>
                   <button
                     onClick={handlePrevSong}
@@ -177,7 +185,7 @@ export const PlayerModal = ({
                       !songs[index - 1]?.title && "text-neutral-600"
                     )}
                   >
-                    <GiPreviousButton className="w-8 h-8" />
+                    <GiPreviousButton className="w-10 h-10" />
                   </button>
                   <button
                     onClick={handleTogglePlay}
@@ -187,9 +195,9 @@ export const PlayerModal = ({
                     )}
                   >
                     {isPlaying ? (
-                      <MdOutlinePause className="w-7 h-7 text-black" />
+                      <MdOutlinePause className="w-10 h-10 text-black" />
                     ) : (
-                      <RiPlayFill className="w-7 h-7 text-black" />
+                      <RiPlayFill className="w-10 h-10 text-black" />
                     )}
                   </button>
                   <button
@@ -202,7 +210,7 @@ export const PlayerModal = ({
                       !songs[index + 1]?.title && "text-neutral-600"
                     )}
                   >
-                    <GiNextButton className="w-8 h-8" />
+                    <GiNextButton className="w-10 h-10" />
                   </button>
                   <button
                     className={cn(
@@ -212,13 +220,13 @@ export const PlayerModal = ({
                       !currentSong?.title && "text-neutral-600"
                     )}
                   >
-                    <LuRepeat className="w-4 h-4" />
+                    <LuRepeat className="w-5 h-5" />
                   </button>
                 </div>
                 {!!lyrics && (
-                  <div className="bg-neutral-800 mt-4 p-4 rounded-md">
+                  <div className="bg-neutral-800 mt-6 p-4 rounded-md">
                     <p
-                      className="text-sm"
+                      className="text-neutral-300"
                       dangerouslySetInnerHTML={{ __html: lyrics }}
                     />
                   </div>
