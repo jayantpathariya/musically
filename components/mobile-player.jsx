@@ -50,6 +50,56 @@ export const MobilePlayer = () => {
       },
     });
 
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentSong.title,
+        artist: formatArtist(currentSong.more_info),
+        artwork: [
+          { src: createImageLinks(currentSong.image)[0]?.link, sizes: "50x50" },
+          {
+            src: createImageLinks(currentSong.image)[1]?.link,
+            sizes: "150x150",
+          },
+          {
+            src: createImageLinks(currentSong.image)[2]?.link,
+            sizes: "500x500",
+          },
+        ],
+      });
+
+      navigator.mediaSession.setActionHandler("play", () => {
+        soundRef.current.play();
+      });
+
+      navigator.mediaSession.setActionHandler("pause", () => {
+        soundRef.current.pause();
+      });
+
+      navigator.mediaSession.setActionHandler("nexttrack", () => {
+        dispatch(playNextSong());
+      });
+
+      navigator.mediaSession.setActionHandler("previoustrack", () => {
+        dispatch(playPrevSong());
+      });
+
+      navigator.mediaSession.setActionHandler("seekbackward", () => {
+        soundRef.current.seek(soundRef.current.seek() - 10);
+      });
+
+      navigator.mediaSession.setActionHandler("seekforward", () => {
+        soundRef.current.seek(soundRef.current.seek() + 10);
+      });
+
+      navigator.mediaSession.setActionHandler("seekto", (details) => {
+        soundRef.current.seek(details.seekTime);
+      });
+
+      navigator.mediaSession.setActionHandler("stop", () => {
+        soundRef.current.stop();
+      });
+    }
+
     return () => {
       soundRef.current?.unload();
     };
