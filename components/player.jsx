@@ -39,6 +39,8 @@ export const Player = () => {
   const soundRef = useRef(null);
 
   useEffect(() => {
+    if (!currentSong?.download_links) return;
+
     if (currentSong?.download_links && !isMobile) {
       soundRef.current = new Howl({
         src: [currentSong?.download_links[4]?.link],

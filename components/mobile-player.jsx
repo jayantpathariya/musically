@@ -29,8 +29,6 @@ export const MobilePlayer = () => {
 
   const soundRef = useRef(null);
 
-  console.log(createImageLinks(currentSong?.image));
-
   useEffect(() => {
     if (!currentSong?.download_links || !isMobile) return;
 
