@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Slider from "rc-slider";
+
 import { Howl } from "howler";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -13,11 +13,16 @@ import { useSelector } from "react-redux";
 import { MdOutlinePause } from "react-icons/md";
 import { RiPlayFill } from "react-icons/ri";
 import { TextAnimate } from "./text-animate";
+import { PlayerModal } from "./player-modal";
+import { ProgressBar } from "./progress-bar";
 
 export const MobilePlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [seek, setSeek] = useState(0);
-  const { currentSong, songs, index } = useSelector((state) => state.song);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { currentSong } = useSelector((state) => state.song);
 
   const dispatch = useDispatch();
   const isMobile = useMedia("(max-width: 768px)");
@@ -25,59 +30,47 @@ export const MobilePlayer = () => {
   const soundRef = useRef(null);
 
   useEffect(() => {
-    if (currentSong?.download_links && isMobile) {
-      soundRef.current = new Howl({
-        src: [currentSong?.download_links[4]?.link],
-        autoplay: true,
-        volume: 0.1,
-        onplay: () => {
-          setIsPlaying(true);
-        },
-        onpause: () => {
-          setIsPlaying(false);
-        },
-        onend: () => {
-          setSeek(0);
-          setIsPlaying(false);
-          dispatch(playNextSong());
-        },
-      });
-    }
+    if (!currentSong?.download_links || !isMobile) return;
+
+    soundRef.current = new Howl({
+      src: [currentSong.download_links[4]?.link],
+      autoplay: true,
+      volume: 0.1,
+      onplay: () => {
+        setIsPlaying(true);
+      },
+      onpause: () => {
+        setIsPlaying(false);
+      },
+      onend: () => {
+        setSeek(0);
+        setIsPlaying(false);
+        dispatch(playNextSong());
+      },
+    });
 
     return () => {
       soundRef.current?.unload();
     };
+  }, [currentSong, isMobile, dispatch]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [songs, index, currentSong?.download_links, dispatch]);
+  console.log(currentSong);
 
-  const updateProgress = useCallback(() => {
-    if (soundRef.current) {
-      setSeek(soundRef.current?.seek());
-      requestAnimationFrame(updateProgress);
-    }
-  }, []);
+  const handleSeek = useCallback(
+    (value) => {
+      const newPosition = parseFloat(value);
+      setSeek(newPosition);
+      if (soundRef.current) {
+        soundRef.current.pause();
+        soundRef.current.seek(newPosition);
+        soundRef.current.play();
+      }
+    },
+    [soundRef]
+  );
 
-  // update progress bar
-  useEffect(() => {
-    requestAnimationFrame(updateProgress);
-
-    return () => {
-      cancelAnimationFrame(updateProgress);
-    };
-  }, [currentSong, updateProgress]);
-
-  const handleSeek = (value) => {
-    const newPosition = parseFloat(value);
-    setSeek(newPosition);
-    if (soundRef.current) {
-      soundRef.current.pause();
-      soundRef.current.seek(newPosition);
-      soundRef.current.play();
-    }
-  };
-
-  const handleTogglePlay = () => {
+  const handleTogglePlay = (e) => {
+    e.stopPropagation();
     if (soundRef.current) {
       if (isPlaying) {
         soundRef.current.pause();
@@ -87,9 +80,15 @@ export const MobilePlayer = () => {
     }
   };
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+
   return (
     <div className="md:hidden md:invisible md:pointer-events-none bg-neutral-800 flex p-2 rounded-md m-1 mb-0 fixed bottom-20 left-0 right-0 mr-12 w-[97%]">
-      <div className="relative h-12 w-full">
+      <div className="relative h-12 w-full" onClick={() => setIsOpen(true)}>
         <div className="flex items-center justify-between gap-x-2 h-full">
           <div className="flex items-center gap-x-2 overflow-hidden">
             <div className="w-12 h-12 shrink-0">
@@ -103,7 +102,7 @@ export const MobilePlayer = () => {
                 />
               )}
             </div>
-            <div className="overflow-hidden">
+            <div className="overflow-hidden text-left">
               <TextAnimate className="text-sm font-semibold text-neutral-100 ">
                 {currentSong?.title}
               </TextAnimate>
@@ -126,21 +125,25 @@ export const MobilePlayer = () => {
           </button>
         </div>
         <div className="absolute -bottom-3.5 left-0 w-full">
-          <Slider
-            className="mobile-slider"
-            disabled={!currentSong?.title}
-            styles={{
-              track: { backgroundColor: "#fff", height: "2px" },
-              rail: { backgroundColor: "#636363", height: "2px" },
-              handle: { display: "none" },
-            }}
-            max={soundRef.current ? soundRef.current?.duration() : 100}
-            step={0.01}
-            value={seek}
-            onChange={handleSeek}
+          <ProgressBar
+            soundRef={soundRef}
+            seek={seek}
+            handleSeek={handleSeek}
+            currentSong={currentSong}
+            setSeek={setSeek}
           />
         </div>
       </div>
+      {currentSong?.title && (
+        <PlayerModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          soundRef={soundRef}
+          isPlaying={isPlaying}
+          seek={seek}
+          setSeek={setSeek}
+        />
+      )}
     </div>
   );
 };

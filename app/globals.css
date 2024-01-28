@@ -84,3 +84,7 @@ body,
 .text-animation {
   animation: text-animation 5s linear infinite alternate;
 }
+
+.react-modal-sheet-container {
+  height: 100% !important;
+}

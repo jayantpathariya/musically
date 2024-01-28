@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { cn, formatArtist, secondsToMinutes } from "@/lib/utils";
 import { setSong } from "@/redux/songSlice";
+import { useEffect, useState } from "react";
 
 export const Table = ({
   playlist,
@@ -17,10 +18,19 @@ export const Table = ({
   showHeader = true,
   isLiked,
 }) => {
+  const [isMounted, setIsMounted] = useState(false);
   const { currentSong } = useSelector((state) => state.song);
   const dispatch = useDispatch();
 
   const isMobile = useMedia("(max-width: 768px)");
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   const handlePlaySong = (playlist, song, index) => {
     dispatch(setSong({ playlist, song, index }));
