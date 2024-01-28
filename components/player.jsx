@@ -20,7 +20,7 @@ import {
 import { HiOutlineQueueList } from "react-icons/hi2";
 import { Howl } from "howler";
 
-import { cn, formatArtist } from "@/lib/utils";
+import { cn, createImageLinks, formatArtist } from "@/lib/utils";
 import { playNextSong, playPrevSong, shuffleSongs } from "@/redux/songSlice";
 
 export const Player = () => {
@@ -55,6 +55,50 @@ export const Player = () => {
           setIsPlaying(false);
           dispatch(playNextSong());
         },
+      });
+    }
+
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentSong.title,
+        artist: formatArtist(currentSong.more_info),
+        artwork: createImageLinks(currentSong.image).map((image) => ({
+          src: image.link,
+          sizes: image.quality,
+          type: `image/${image.link.split(".").pop()}`,
+        })),
+      });
+
+      navigator.mediaSession.setActionHandler("play", () => {
+        soundRef.current.play();
+      });
+
+      navigator.mediaSession.setActionHandler("pause", () => {
+        soundRef.current.pause();
+      });
+
+      navigator.mediaSession.setActionHandler("nexttrack", () => {
+        dispatch(playNextSong());
+      });
+
+      navigator.mediaSession.setActionHandler("previoustrack", () => {
+        dispatch(playPrevSong());
+      });
+
+      navigator.mediaSession.setActionHandler("seekbackward", () => {
+        soundRef.current.seek(soundRef.current.seek() - 10);
+      });
+
+      navigator.mediaSession.setActionHandler("seekforward", () => {
+        soundRef.current.seek(soundRef.current.seek() + 10);
+      });
+
+      navigator.mediaSession.setActionHandler("seekto", (details) => {
+        soundRef.current.seek(details.seekTime);
+      });
+
+      navigator.mediaSession.setActionHandler("stop", () => {
+        soundRef.current.stop();
       });
     }
 

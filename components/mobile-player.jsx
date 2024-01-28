@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useMedia } from "react-use";
 
-import { playNextSong } from "@/redux/songSlice";
+import { playNextSong, playPrevSong } from "@/redux/songSlice";
 import { createImageLinks, formatArtist } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import { MdOutlinePause } from "react-icons/md";
@@ -28,6 +28,8 @@ export const MobilePlayer = () => {
   const isMobile = useMedia("(max-width: 768px)");
 
   const soundRef = useRef(null);
+
+  console.log(createImageLinks(currentSong?.image));
 
   useEffect(() => {
     if (!currentSong?.download_links || !isMobile) return;
@@ -54,17 +56,11 @@ export const MobilePlayer = () => {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentSong.title,
         artist: formatArtist(currentSong.more_info),
-        artwork: [
-          { src: createImageLinks(currentSong.image)[0]?.link, sizes: "50x50" },
-          {
-            src: createImageLinks(currentSong.image)[1]?.link,
-            sizes: "150x150",
-          },
-          {
-            src: createImageLinks(currentSong.image)[2]?.link,
-            sizes: "500x500",
-          },
-        ],
+        artwork: createImageLinks(currentSong.image).map((image) => ({
+          src: image.link,
+          sizes: image.quality,
+          type: `image/${image.link.split(".").pop()}`,
+        })),
       });
 
       navigator.mediaSession.setActionHandler("play", () => {
