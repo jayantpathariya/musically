@@ -113,7 +113,8 @@ export const PlayerProvider = ({ children }) => {
     };
   }, [currentSong, updateProgress]);
 
-  const handleTogglePlay = () => {
+  const handleTogglePlay = (e) => {
+    e?.stopPropagation();
     if (player) {
       if (isPlaying) {
         player.pause();
@@ -129,15 +130,12 @@ export const PlayerProvider = ({ children }) => {
   };
 
   const handleSeek = (value) => {
-    console.log(value);
     const newPosition = value;
     setSeek(newPosition);
     if (player) {
       player.pause();
       player.seek(newPosition);
-      setTimeout(() => {
-        player.play();
-      }, 200);
+      player.play();
     }
   };
 
