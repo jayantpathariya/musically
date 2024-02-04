@@ -155,7 +155,7 @@ export const Player = () => {
               handle: { backgroundColor: "#fff", border: "none", opacity: 100 },
             }}
             max={duration || 100}
-            step={0.01}
+            step={1}
             value={seek}
             onChange={handleSeek}
           />

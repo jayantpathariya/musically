@@ -23,12 +23,11 @@ export const PlayerProvider = ({ children }) => {
   const duration = player?.duration();
 
   useEffect(() => {
-    if (!currentSong?.download_links) return;
+    if (!currentSong?.download_links || playerRef.current) return;
 
     playerRef.current = new Howl({
       src: [currentSong.download_links[4]?.link],
       autoplay: true,
-      html5: true,
       volume: 0.1,
       onplay: () => {
         setIsPlaying(true);
@@ -130,12 +129,15 @@ export const PlayerProvider = ({ children }) => {
   };
 
   const handleSeek = (value) => {
-    const newPosition = parseFloat(value);
+    console.log(value);
+    const newPosition = value;
     setSeek(newPosition);
     if (player) {
       player.pause();
       player.seek(newPosition);
-      player.play();
+      setTimeout(() => {
+        player.play();
+      }, 200);
     }
   };
 
